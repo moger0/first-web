@@ -44,6 +44,8 @@ def userlist(request):
 # 删除数据
 def userdel(request,uid):
     ob=models.Users.objects.get(id=uid)
+    pic_url=ob.pic_url
+    delpic(pic_url)
     ob.status=3
     ob.save()
     return HttpResponse('<script>alert("删除成功");location.href="'+reverse('myadmin_user_list')+'"</script>')
@@ -87,3 +89,8 @@ def upload(myfile):
     destination.close()
     # /static/picsn/图片
     return '/static/pics/'+filename
+
+def delpic(pic_url):
+    if pic_url!='/static/pics/user.jpg':
+        os.remove(BASE_DIR+pic_url)
+    return
