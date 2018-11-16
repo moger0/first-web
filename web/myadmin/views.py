@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse
 import time,os
 from . import models
 from web.settings import BASE_DIR
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 # Create your views here.
 def index(request):
@@ -39,7 +41,67 @@ def useradd(request):
 # 查询所有用户
 def userlist(request):
     data = models.Users.objects.all().exclude(status=3)
-    return render(request,'myadmin/user/userlist.html',{"info":data})
+    keywords = request.GET.get('keywords','')
+    types = request.GET.get('types','')
+    search={'keywords':keywords,'types':types}
+    # 判断有没有条件查询
+    if types:
+        # 判断有没有搜索类型
+        if types == 'all':
+            # sql
+            # select * from users where usernamelike %keywords% or email like %keywords%
+            # models.Users.objects.filter(username__contains='123',email__contains='123')
+            # data = models.Users.objects.filter(username__contains='123')
+            # data.filter(email__contains='123')
+            key={'男':'1','女':'0'}
+            data = data.filter(Q(username__contains=keywords)|Q(phone__contains=keywords)|Q(email__contains=keywords)|Q(age__contains=keywords)|Q(sex__contains=key[keywords])|Q(status__contains=keywords))
+            return fpage(request,data,search)
+        elif types == 'sex':
+            key={'男':'1','女':'0'}
+            data = data.filter(sex__contains=key[keywords])
+            return fpage(request,data,search)
+        else:
+            # data = models.Users.objects.filter(username__contains=keywords)
+            t = {types+'__contains':keywords}
+            data = data.filter(**t)
+            return fpage(request,data,search)
+    else:
+        return fpage(request,data,search)
+
+    
+
+
+def fpage(request,data,search):
+    # 数据分页
+    # 实例化分页类 第一个参数所有的数据集合 每页要显示的条数
+    p = Paginator(data,5)
+    # 统计所有的数据
+    # sum_data=p.count
+    # 获取可以分多少页
+    page_num = p.num_pages
+    # 分页的范围 range(1,)
+    pagenums = p.page_range
+
+    # 接收页码
+    pg = int(request.GET.get('p',1))
+    # 判断当前页码不能小于1
+    if pg<1:
+        pg=1
+    if pg>page_num:
+        pg=page_num
+    # 获取第几页的数据
+    pagedata = p.page(pg)
+    # 限制边界 如果当前页码小于或=3 只取前五条数据
+    if pg <= 3:
+        pag_list = pagenums[:5]
+    elif pg+2 > page_num:
+        pag_list = pagenums[-5:]
+    else:
+        pag_list = pagenums[pg-3:pg+2]
+    print(pag_list)
+
+    return render(request,'myadmin/user/userlist.html',{"info":pagedata,'pagenums':pag_list,'pg':pg,'search':search})
+
 
 # 删除数据
 def userdel(request,uid):
