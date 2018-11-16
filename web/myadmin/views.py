@@ -54,7 +54,7 @@ def userlist(request):
             # data = models.Users.objects.filter(username__contains='123')
             # data.filter(email__contains='123')
             key={'男':'1','女':'0'}
-            data = data.filter(Q(username__contains=keywords)|Q(phone__contains=keywords)|Q(email__contains=keywords)|Q(age__contains=keywords)|Q(sex__contains=key[keywords])|Q(status__contains=keywords))
+            data = data.filter(Q(username__contains=keywords)|Q(phone__contains=keywords)|Q(email__contains=keywords)|Q(age__contains=keywords)|Q(sex__contains=keywords)|Q(status__contains=keywords))
             return fpage(request,data,search)
         elif types == 'sex':
             key={'男':'1','女':'0'}

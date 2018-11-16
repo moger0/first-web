@@ -26,18 +26,33 @@
                     <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
                         <div class="am-form-group tpl-table-list-select">
                             <select name="types" data-am-selected="{btnSize: 'sm'}">
-                                <option value="all">所有类别</option>
-                                <option value="username">用户名</option>
-                                <option value="phone">手机</option>
-                                <option value="email">邮箱</option>
-                                <option value="age">年龄</option>
-                                <option value="sex">性别</option>
-                                <option value="status">状态</option></select>
+                               <!--  {% if search.types != '' %}
+                                <option>{{ search.types }}</option>
+                                {% endif %} -->
+                                <option value="all" {% if search.types == "all" %} selected {% endif %}>所有类别</option>
+                               
+                                <option value="username" {% if search.types == "username" %} selected {% endif %}>用户名</option>
+                                
+                                <option value="phone" {% if search.types == "phone" %} selected {% endif %}>手机</option>
+                           
+                              
+                                <option value="email" {% if search.types == "email" %} selected {% endif %}>邮箱</option>
+                             
+                              
+                                <option value="age" {% if search.types == "age" %} selected {% endif %}>年龄</option>
+                           
+                                <option value="sex" {% if search.types == "sex" %} selected {% endif %}>性别</option>
+                              
+                              
+                                <option value="status" {% if search.types == "status" %} selected {% endif %}>状态</option>
+                                
+                            </select>
+                            
                         </div>
                     </div>
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                         <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
-                            <input type="text" name="keywords" class="am-form-field ">
+                            <input type="text" name="keywords" class="am-form-field" value="{{ search.keywords }}">
                             <span class="am-input-group-btn">
                                 <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search"></button>
                             </span>
