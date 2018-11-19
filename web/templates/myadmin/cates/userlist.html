@@ -1,0 +1,219 @@
+{% extends 'myadmin/index.html' %}
+{% block title %}
+<title>用户信息</title>
+{% endblock %}
+{% block content %}
+<div class="row-content am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+            <div class="widget am-cf">
+                <div class="widget-head am-cf">
+                    <div class="widget-title  am-cf">文章列表</div></div>
+                <div class="widget-body  am-fr">
+                    <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                        <div class="am-form-group">
+                            <div class="am-btn-toolbar">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <button type="button" class="am-btn am-btn-default am-btn-success">
+                                        <a href="{% url 'myadmin_cates_add' %}"><span class="am-icon-plus"></span>新增</a>
+                                    </button>
+                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <form>
+                    <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                        <div class="am-form-group tpl-table-list-select">
+                            <select name="types" data-am-selected="{btnSize: 'sm'}">
+                               <!--  {% if search.types != '' %}
+                                <option>{{ search.types }}</option>
+                                {% endif %} -->
+                                <option value="all" {% if search.types == "all" %} selected {% endif %}>所有类别</option>
+                               
+                                <option value="name" {% if search.types == "name" %} selected {% endif %}>分类名</option>
+                                
+                                <option value="pid" {% if search.types == "pid" %} selected {% endif %}>pid级别</option>
+                           
+                                <option value="isDelete" {% if search.types == "isDelete" %} selected {% endif %}>状态</option>
+                                
+                            </select>
+                            
+                        </div>
+                    </div>
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                        <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                            <input type="text" name="keywords" class="am-form-field" value="{{ search.keywords }}">
+                            <span class="am-input-group-btn">
+                                <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search"></button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                    <div class="am-u-sm-12">
+                        <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black ">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>分类名</th>
+                                    <th>pid</th>
+                                    <th>path</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% load tables %}
+                                {% for i in info %}
+                                <tr class="gradeX">
+                                    <td>{{i.id}}</td>
+                                    <td class="am-text-middle"><span>{% nbsp i.path %}</span><span class="item">{{i.name}}</span></td>
+                                    <td class="am-text-middle">{{i.pid}}</td>
+                                    <td class="am-text-middle">{{i.path}}</td>
+                                    <td class="am-text-middle">
+                                        {% if i.isDelete == 1 %}正常
+                                        {% elif i.isDelete == 0 %}已删除
+                                        {% endif %}
+                                    </td>
+                                    <td class="am-text-middle">
+                                        <div class="tpl-table-black-operation">
+                                            <a href="javaScript:void(0)" class="editc">
+                                                <i class="am-icon-pencil"></i>编辑</a>
+                                            <a href="javaScript:void(0)" class="tpl-table-black-operation-del delc">
+                                                <i class="am-icon-trash"></i>删除</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                -
+                                <!-- more data --></tbody>
+                        </table>
+
+                        <script type="text/javascript">
+                            // 修改
+                            $('.item').dblclick(function(){
+                                // 获取当前内容
+                                console.log(1);
+                                var txt = $(this).text();
+                                var newitem = $(this);
+                                // 创建input
+                                var newinp = $('<input type="text" style="color:#000" autofocus="autofocus">');
+                                // 将当前内容写入input
+                                newinp.val(txt);
+                                // 将input写入到.item
+                                $(this).html(newinp);
+                                // 选中
+                                // $(this).select();
+                                $(this).select();
+                                // 添加失去焦点
+
+                                newinp.blur(function(){
+                                    // 判断值有没有被修改
+                                    if(newinp.val()==txt){
+                                        newitem.html(txt);
+                                        console.log(2);
+                                    }else{
+                                        console.log(3);
+                                        // 获取数据发送数据
+                                        var cid = $(this).parents('td').prev().html();
+                                        var newval = newinp.val();
+                                        newitem.html(newval);
+                                        // 发送ajax请求
+                                        $.get('{% url "myadmin_cates_edit" %}',{'id':cid,'name':newval},function(data){
+                                            if(data['error']==1){
+                                                alert(data['msg']);
+                                            }else if(data['error']==0){
+                                                alert(data['msg']);
+                                            }
+                                        })
+                                    }
+                                })
+                            })
+
+
+                            $('.delc').click(function(){
+                                // 获取当前单击类别的id
+                                var id = $(this).parents('tr').find('td:eq(0)').text();
+                                // 获取要删除的元素
+                                var el = $(this).parents('tr');
+                                // 发送ajax请求
+                                $.get('{% url "myadmin_cates_del" %}',{'id':id},function(data){
+                                    // 判断后台返回的数据
+                                    if(data['error']==0){
+                                        alert(data['msg'])
+                                    }else if(data['error']==1){
+                                        // 删除标签
+                                        // console.log($(this))
+                                        // ajax内部使用$(this)指向ajax对象中XML Httprequest
+                                        el.remove();
+                                        alert(data['msg']);
+                                    }
+                                })
+                            })
+
+
+                            // 修改
+                            $('.editc').click(function(){
+                                // 获取当前内容
+                                console.log(1);
+                                var newitem = $(this).parents('tr').find('span').eq(1);;
+                                var txt = newitem.text();
+                                // 创建input
+                                var newinp = $('<input type="text" style="color:#000" autofocus="autofocus">');
+                                // 将当前内容写入input
+                                newinp.val(txt);
+                                // 将input写入到.item
+                                newitem.html(newinp);
+                                // 选中
+                                // $('#itemc').select();
+                                newitem.select();
+                                // 添加失去焦点
+
+                                newinp.blur(function(){
+                                    // 判断值有没有被修改
+                                    if(newinp.val()==txt){
+                                        newitem.html(txt);
+                                        console.log(2);
+                                    }else{
+                                        console.log(3);
+                                        // 获取数据发送数据
+                                        var cid = newitem.parents('td').prev().html();
+                                        var newval = newinp.val();
+                                        newitem.html(newval);
+                                        // 发送ajax请求
+                                        $.get('{% url "myadmin_cates_edit" %}',{'id':cid,'name':newval},function(data){
+                                            if(data['error']==1){
+                                                alert(data['msg']);
+                                            }else if(data['error']==0){
+                                                alert(data['msg']);
+                                            }
+                                        })
+                                    }
+                                })
+                            })
+                          
+
+                        </script>
+
+
+                    </div>
+                    <div class="am-u-lg-12 am-cf">
+                        <div class="am-fr">
+                            <ul class="am-pagination tpl-pagination">
+                                <li>
+                                    <a href="?p={{pg|add:-1}}&types={{ search.types }}&keywords={{ search.keywords }}">«</a></li>
+                                {% for i in pagenums %}
+                                <li {% if pg == i %} class="am-active" {% endif %}>
+                                    <a href="?p={{i}}&types={{ search.types }}&keywords={{ search.keywords }}">{{ i }}</a></li>
+                                {% endfor %}
+                                <li>
+                                    <a href="?p={{pg|add:1}}&types={{ search.types }}&keywords={{ search.keywords }}">»</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

@@ -90,6 +90,7 @@ DATABASES = {
         'PASSWORD': '123456',
         'HOST': '127.0.0.1',
         'PORT': '3306',
+        'OPTIONS':{'isolation_level':None}  #我加了这一句就好了
     }
 }
 

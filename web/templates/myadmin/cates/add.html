@@ -1,0 +1,65 @@
+{% extends 'myadmin/index.html' %}
+{% block title %}
+<title>添加分类</title>
+{% endblock %}
+{% block content %}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading">
+                <span class="am-icon-home page-header-heading-icon"></span>表单
+                <small>Amaze UI</small></div>
+            <p class="page-header-description">Amaze UI 有许多不同的表格可用。</p></div>
+        <div class="am-u-lg-3 tpl-index-settings-button">
+            <button type="button" class="page-header-button">
+                <span class="am-icon-paint-brush"></span>设置</button>
+        </div>
+    </div>
+</div>
+<div class="row-content am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+            <div class="widget am-cf">
+                <div class="widget-head am-cf">
+                    <div class="widget-title am-fl"选择分类</div>
+                    <div class="widget-function am-fr">
+                        <a href="javascript:;" class="am-icon-cog"></a>
+                    </div>
+                </div>
+                <div class="widget-body am-fr">
+                    <form class="am-form tpl-form-line-form" action="{% url 'myadmin_cates_add' %}" enctype="multipart/form-data" method="post">
+                        {% csrf_token%}
+                        <div class="am-form-group">
+                            <label for="user-name" class="am-u-sm-3 am-form-label">选择类名
+                                <span class="tpl-form-line-small-title">Title</span></label>
+                            <select name="fname" data-am-selected="{btnSize:'sm'}">
+                                <option value="0">顶级分类</option>
+                                {% load tables %}
+                                {% for i in info %}
+                                <option value="{{i.id}}"><span>{% nbsp i.path %}</span>{{i.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="user-name" class="am-u-sm-3 am-form-label">分类名
+                                <span class="tpl-form-line-small-title">Title</span></label>
+                            <div class="am-u-sm-9">
+                                <input type="text" name="name" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
+                                <small>请填写标题文字10-20字左右。</small></div>
+                        </div>
+                       
+                       
+
+                      
+                        <div class="am-form-group">
+                            <div class="am-u-sm-9 am-u-sm-push-3">
+                                <button  class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</div>
+{% endblock %}
