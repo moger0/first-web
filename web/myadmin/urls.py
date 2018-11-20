@@ -2,7 +2,15 @@ from django.conf.urls import url
 from . views import viewsIndex,viewsUsers,viewsCates,viewsGoods
 
 urlpatterns = [
+    # 首页
     url(r'^$',viewsIndex.index,name="myadmin_index"),
+
+    # 登录
+    url(r'^login/$',viewsIndex.login,name="myadmin_login"),
+    url(r'^loginout/$',viewsIndex.loginout,name="myadmin_loginout"),
+    url(r'^verifycode/$',viewsIndex.verifycode,name="myadmin_code"),
+
+    # 用户管理
     url(r'^user/add/$',viewsUsers.useradd,name="myadmin_user_add"),
     url(r'^user/userlist/$',viewsUsers.userlist,name="myadmin_user_list"),
      url(r'^user/del/([0-9]+)/$', viewsUsers.userdel,name="myadmin_user_del"),
@@ -14,4 +22,10 @@ urlpatterns = [
     url(r'^cates/del/$',viewsCates.catesdel,name="myadmin_cates_del"),
     url(r'^cates/edit/$',viewsCates.catesedit,name="myadmin_cates_edit"),
     
+    # 商品管理
+    url(r'^goods/add/$',viewsGoods.goodsadd,name="myadmin_goods_add"),
+    url(r'^goods/insert/$',viewsGoods.goodsinsert,name="myadmin_goods_insert"),
+    url(r'^goods/list/$',viewsGoods.goodslist,name="myadmin_goods_list"),
+    url(r'^goods/del/$',viewsGoods.goodsdel,name="myadmin_goods_del"),
+    url(r'^goods/edit/$',viewsGoods.goodsedit,name="myadmin_goods_edit"),
 ]

@@ -28,6 +28,7 @@ def catesadd(request):
             ob.path = f.path+str(ob.pid)+','
         else:
             ob.path=data['fname']+','
+            # ob.path='0,'
         ob.save()
         return HttpResponse('<script>alert("添加成功");location.href="'+reverse('myadmin_cates_list')+'"</script>')
 
@@ -85,18 +86,6 @@ def catesdel(request):
 
 
 
-# def catesdel(request):
-#     # 获取要删除的分类的id
-#     cid = request.GET.get('id') 
-#     # 根据id去查询子分类
-#     ob = models.Cates.objects.filter(pid=cid)
-#     # 判断如果有子分类不删除
-#     if ob:
-#         return JsonResponse({'error':0,'msg':'有子分类不能删除'})
-#     else:
-#         z = models.Cates.objects.get(id=cid)
-#         z.delete()
-#         return JsonResponse({'error':1,'msg':'删除成功'})
 
 # 修改
 def catesedit(request):

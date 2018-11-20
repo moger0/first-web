@@ -32,3 +32,21 @@ class Cates(models.Model):
 
     def __str__(self):
         return self.path
+
+
+# 商品管理
+class Goods(models.Model):
+    # id 标题 外键 图片 数量 价格 状态 简介 销售量 点击量 添加时间
+    title = models.CharField(max_length=70)
+    cateid = models.ForeignKey(to='Cates')
+
+    pic_url = models.CharField(max_length=200)
+    gnum = models.IntegerField()
+    price = models.FloatField()
+    status = models.IntegerField(default=0)
+    info = models.TextField(max_length=255)
+
+    ordernum = models.IntegerField(default=0)
+    clicknum = models.IntegerField(default=0)
+
+    adddtime = models.DateTimeField(auto_now_add=True)
