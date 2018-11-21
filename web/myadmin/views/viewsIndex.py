@@ -22,11 +22,16 @@ def login(request):
         # 判断验证码
         if data['code'] != request.session['verifycode']:
             return HttpResponse('<script>alert("验证码有误");loaction.href="'+reverse('myadmin_login')+'"</script>')
-        # 判断用户和密码
-        if data['username'] == "admin" and data['password'] == "123456":
-            request.session['vipuser']={'username':'admin'}
+        try:
+            # 判断用户和密码
+            if data['username'] == "admin" and data['password'] == "123456":
+                request.session['vipuser']={'username':'admin'}
             # 跳转到首页
             return HttpResponse('<script>alert("登陆成功");location.href="'+reverse('myadmin_index')+'"</script>')
+        except:
+             return HttpResponse('<script>alert("登陆失败");location.href="'+reverse('myadmin_login')+'"</script>')
+
+
 
 def loginout(request):
     request.session['vipuser']=''

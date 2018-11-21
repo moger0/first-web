@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from . views import viewsIndex,viewsUsers,viewsCates,viewsGoods
+from . views import viewsIndex,viewsUsers,viewsCates,viewsGoods,viewsBeiHuan
 
 urlpatterns = [
     # 首页
@@ -28,4 +28,8 @@ urlpatterns = [
     url(r'^goods/list/$',viewsGoods.goodslist,name="myadmin_goods_list"),
     url(r'^goods/del/$',viewsGoods.goodsdel,name="myadmin_goods_del"),
     url(r'^goods/edit/$',viewsGoods.goodsedit,name="myadmin_goods_edit"),
+
+    # 数据备份与还原
+    url(r'^mysqlbeifen/$',viewsBeiHuan.sqlbeifen,name="sqlbeifen"),
+    url(r'^mysqlhuanyuan/$',viewsBeiHuan.sqlhuanyuan,name="sqlhuanyuan"),
 ]
