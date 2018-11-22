@@ -37,31 +37,58 @@
   <div class="layout-header">
     <nav class="navbar navbar-default header hidden-xs hidden-sm" style="">
       <div class="container clearfix">
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        
+       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <div class="layout-header-logo navbar-left">
               <a target="_blank" href="./index.html" class="layout-header-logo-link" alt="魅族科技">
                 <img src="/static/myhome/img/logo.png">
               </a>
           </div>
+           {% if request.session.vipuser %}
           <ul class="nav navbar-nav navbar-right layout-header-service clearfix">
             <li class="layout-header-service-item" id="layoutHeaderUser">
                 <a class="layout-header-service-link g-user" href="#">
-                  <i class="glyphicon glyphicon-user"></i>
+                  <!-- <i class="glyphicon glyphicon-user"></i> -->
+                  <img src="{{ request.session.vipuser.pic_url }}" width="100%">
                 </a>
                 <div class="layout-user-downmenu">
                   <ul class="layout-user-downmenu-list">
-                    <li class="layout-user-downmenu-item">
-                      <a href="#" class="layout-user-downmenu-link">立即登录</a>
-                    </li>
-                    <li class="layout-user-downmenu-item">
-                      <a href="#" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_register">立即注册</a>
-                    </li>
-                    <li class="layout-user-downmenu-item">
-                      <a href="//ordercenter.meizu.com/list/index.html" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_myorder">我的订单</a>
-                    </li>
-                    <li class="layout-user-downmenu-item">
-                      <a href="//store.meizu.com/mformy/index" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_mformy">M码通道</a>
-                    </li>
+                   
+                      <li class="layout-user-downmenu-item">
+                      <a href="{% url 'myhome_info' %}" class="layout-user-downmenu-link">个人中心</a>
+                      </li>
+                      <li class="layout-user-downmenu-item">
+                        <a href="{% url 'myhome_loginout' %}" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_register">退出登录</a>
+                      </li>
+                      <li class="layout-user-downmenu-item">
+                        <a href="#" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_myorder">我的订单</a>
+                      </li>
+                      <li class="layout-user-downmenu-item">
+                        <a href="#" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_mformy">M码通道</a>
+                      </li>
+                    {% else %}
+                    <ul class="nav navbar-nav navbar-right layout-header-service clearfix">
+                    <li class="layout-header-service-item" id="layoutHeaderUser">
+                    <a class="layout-header-service-link g-user" href="#">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <img src="{{ request.session.vipuser.pic_url }}" width="100">
+                    </a>
+                <div class="layout-user-downmenu">
+                  <ul class="layout-user-downmenu-list">
+                      <li class="layout-user-downmenu-item">
+                      <a href="{% url 'myhome_login' %}" class="layout-user-downmenu-link">立即登录</a>
+                      </li>
+                      <li class="layout-user-downmenu-item">
+                        <a href="{% url 'myhome_register' %}" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_register">立即注册</a>
+                      </li>
+                      <li class="layout-user-downmenu-item">
+                        <a href="#" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_myorder">我的订单</a>
+                      </li>
+                      <li class="layout-user-downmenu-item">
+                        <a href="#" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_mformy">M码通道</a>
+                      </li>
+                    {% endif %}
+                    
                   </ul>
                 </div>
             </li>
@@ -80,7 +107,7 @@
               <a href="./list.html" class="layout-header-nav-link">魅族手机</a>
             </li>
             <li class="layout-header-nav-item"><a href="./list.html" class="layout-header-nav-link">魅蓝手机</a></li>
-            <li class="layout-header-nav-item"><a href="#" class="layout-header-nav-link">魅族声学</a></li>
+            <li class="layout-header-nav-item"><a href="./list.html" class="layout-header-nav-link">魅族声学</a></li>
             <li class="layout-header-nav-item"><a href="#" class="layout-header-nav-link">智能·配件</a></li>
             <li class="layout-header-nav-item"><a href="#" class="layout-header-nav-link">服务</a></li>
             <li class="layout-header-nav-item"><a href="#" class="layout-header-nav-link">专卖店</a></li>
@@ -185,8 +212,8 @@
       <!-- 面包屑 导航 -->
       <div class="ml-nav hidden-xs hidden-sm">
         <ol class="breadcrumb">
-          <li><a href="./index.html">首页</a></li>
-          <li><a href="#"> 魅蓝 X</a></li>
+          <li><a href="{% url 'myhome_index' %}">首页</a></li>
+          <li><a href="#"> {{data.title}}</a></li>
         </ol>
       </div>
      <!-- 面包屑 导航 E-->
@@ -197,33 +224,19 @@
           <!-- Tab panes -->
           <div class="tab-content preview-booth pt10">
             <div role="tabpanel" class="tab-pane active mod-pic" id="list-p1">
-              <img  src="/static/myhome/img/mlx15.jpg" width="375" height="375"  class="sImg">
+              <img  src="{{data.pic_url}}" width="375" height="375"  class="sImg">
             </div>
-            <div role="tabpanel" class="tab-pane mod-pic" id="list-p2">
-              <img  src="/static/myhome/img/mlx2.jpg" width="375" height="375" class="sImg">
-            </div>
-            <div role="tabpanel" class="tab-pane mod-pic" id="list-p3">
-              <img  src="/static/myhome/img/mlx3.jpg" width="375" height="375" class="sImg">
-            </div>
+
           </div>
 
           <!-- Nav tabs -->
           <ul class="nav nav-tabs preview-thumb clearfix " role="tablist">
             <li role="presentation" class="active">
               <a href="#list-p1" aria-controls="list-p1" role="tab" data-toggle="tab">
-                <img  src="/static/myhome/img/mlx4.jpg" style="display: inline;" width="75" height="75">
+                <img  src="{{data.pic_url}}" style="display: inline;" width="75" height="75">
               </a>
             </li>
-            <li role="presentation">
-              <a href="#list-p2" aria-controls="list-p2" role="tab" data-toggle="tab">
-                <img  src="/static/myhome/img/mlx5.jpg" style="display: inline;" width="75" height="75">
-              </a>
-            </li>
-            <li role="presentation">
-              <a href="#list-p3" aria-controls="list-p3" role="tab" data-toggle="tab">
-                <img  src="/static/myhome/img/mlx6.jpg" style="display: inline;" width="75" height="75">
-              </a>
-            </li>
+           
           </ul>
 
         </div>
@@ -231,8 +244,8 @@
       <div class="col-md-7 col-sm-12 col-xs-12 pt10">
         <div class="property hidden-xs hidden-sm" id="property">
              <div class="property-hd">
-                   <h1>魅蓝 X</h1>
-                   <p class="mod-info active">32G直降200元 原价1699元 高清屏安全快充 </p>
+                   <h1>{{data.title}}</h1>
+                   <p class="mod-info active">{{data.info|safe}} </p>
              </div>
              <div class="property-sell">
                  <dl class="property-sell-price clearfix">
@@ -241,7 +254,7 @@
                      <dd>
                          <div class="mod-price">
                              <small>¥</small>
-                             <span id="J_price" class="vm-money">1499.00</span>
+                             <span id="J_price" class="vm-money">{{data.price}}</span>
                          </div>
                          <div class="mod-original" id="J_originalPrice" style="display:none;"></div>
                          <div class="mod-activity">
@@ -365,9 +378,40 @@
             </dl>
             <div class="property-buy-action">
                 <a data-mtype="store_de_buy" href="javascript:void(0);" id="J_btnBuy" class="btn btn-danger btn-lg mr20">立即购买</a>
-                <a data-mtype="store_de_cart" href="javascript:void(0);" id="J_btnAddCart" class="btn btn-primary btn-lg hide" style="display:inline-block;"><i></i>加入购物车</a>
+                <a data-mtype="store_de_cart" href="javascript:void(0);" id="J_btnAddCart" class="btn btn-primary btn-lg " style="display:inline-block;"><i></i>加入购物车</a>
                 <span class="vm-service" id="J_panicBuyingWrap"></span>
             </div>
+
+             <script type="text/javascript">
+              // 添加单机时间
+              $('#J_btnAddCart').click(function(){
+                // 判断用户是否登录
+                {% if request.session.vipuser.phone %}
+                 var phone =  {{request.session.vipuser.phone}};
+                 {% else %}
+                 var phone = '';
+                 {% endif %}
+
+                 var gid = {{data.id}}
+                 // 获取数量
+                 var num = $('#J_quantity').val()
+                 if(phone){
+                    $.get('{% url "myhome_cartadd" %}',{'phone':phone,'gid':gid,'num':num},function(data){
+                      // 根据返回的数据判断有没有添加成功
+                      if(data['error']==1){
+                        alert('添加成功')
+                      }else{
+                        alert('添加失败')
+                      }
+                    })
+                 }else{
+                  alert('请先登录');
+                  location.href={% url 'myhome_login' %}
+                 }
+                 
+              })
+            </script>
+
           </div>
           <div class="prod-addition">
                 <input id="servertime" value="1503304001935" type="hidden">

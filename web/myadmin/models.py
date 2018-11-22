@@ -50,3 +50,9 @@ class Goods(models.Model):
     clicknum = models.IntegerField(default=0)
 
     adddtime = models.DateTimeField(auto_now_add=True)
+
+class Cart(models.Model):
+    # id uid gid gnum
+    uid = models.ForeignKey(to='Users')
+    gid = models.ForeignKey(to='Goods')
+    gnum = models.IntegerField()

@@ -5,16 +5,45 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.core.urlresolvers import reverse
 
 # Create your views here.
+
 def index(request):
-    return render(request,'myhome/index.html')
+    # 查找所有顶级分类
+    ob = models.Cates.objects.filter(pid=0)
+    for i in ob: # {name:手机,sub:[子分类]}
+        i.sub = models.Cates.objects.filter(pid=i.id)
+
+    # [
+    #     1.{name:手机,sub:[{name:魅蓝,subs:[goodslist],subs:[goodslist]}]}
+    #     2.{
+    #         name:只能设备,
+    #         sub:[goodslist]
+    #     }
+    # ]
+    # 循环: name 手机/智能设备
+    #         sub name 魅蓝 魅族
+    #                 subs 商品
+    return render(request,'myhome/index.html',{'data':ob})
 
 def goodslist(request):
-    pass
-    return render(request,'myhome/login.html')
+    # 接收商品类别id
+    cid = request.GET.get('id')
+    ctype = models.Cates.objects.get(id=cid)
+    # 获取所有的同类型
+    types = models.Cates.objects.filter(pid=ctype.pid)
+    data = ctype.goods_set.all().filter(gnum__gt=0)
+    if request.GET.get('new') == 'status':
+        data = ctype.goods_set.all().filter(gnum__gt=0).filter(status=0).order_by('-adddtime')
+    elif request.GET.get('new') == 'price':
+        data = ctype.goods_set.all().filter(gnum__gt=0).order_by('-price')
+
+    return render(request,'myhome/list.html',{'data':data,'ctype':ctype,'types':types})
 
 def goodsinfo(request):
-    pass
-    return render(request,'myhome/login.html')
+    # 接收商品的id
+    gid = request.GET.get('id')
+    data = models.Goods.objects.get(id=gid)
+
+    return render(request,'myhome/info.html',{'data':data})
 
 def login(request):
     if request.method=='GET':
@@ -28,7 +57,8 @@ def login(request):
             # upass = check_password(userinfo['password'],ob.password)
             if ob and userinfo['password']==ob.password :
                 request.session['vipuser']={'username':ob.username,'phone':ob.phone,'pic_url':ob.pic_url}
-                return render(request,'myhome/index.html')
+                # return render(request,'{myhome/index.html}')
+                return HttpResponse('<script>alert("登陆成功");location.href="'+reverse('myhome_index')+'"</script>')
             else:
                 return HttpResponse('<script>alert("用户名或密码错误");history.back(-1);</script>')
         except:
@@ -69,6 +99,45 @@ def checkregister(request):
         return JsonResponse({"error":0,'msg':'用户名已被注册'})
     else:
         return JsonResponse({"error":1,'msg':'用户名可用'})
+
+def goodscart(request):
+    return render(request,'myhome/cart.html')
+
+def goodscartadd(request):
+    # 接收用户id 商品id
+    data = request.GET.dict()
+    user = models.Users.objects.get(phone=data['phone'])
+    goods = models.Goods.objects.get(id=data['gid'])
+    ob = models.Cart.objects.filter(uid=user).filter(gid=goods)
+    # 判断有没有这个商品
+    # print(ob.count()) # <query [{},{}]>
+    try:
+        if ob:
+            for i in ob:
+                i.gnum = i.gnum+int(data['num'])
+            ob[0].save()
+        else:
+            car = models.Cart()
+            car.uid = user
+            car.gid = goods
+            car.gnum = int(data['num'])
+            car.save()
+     # 添加一条数据 添加cart 并关联商品
+    # c = models.Cart()
+    # c.gnum = 10
+    # c.uid =  models.Users.objects.get(id=1)
+    # c.gid =  models.Goods.objects.get(id=3)
+    # c.save()
+   
+   # 通过cart查用户
+    # car = models.Cart.objects.get(id=9)
+    # print(car.uid.username)
+    # 通过用户查cart
+    # user = models.Users.objects.get(id=1)
+    # print(user.cart_set.all().values())
+        return JsonResponse({'error':1})
+    except:
+        return JsonResponse({'error':0})
 
 
 

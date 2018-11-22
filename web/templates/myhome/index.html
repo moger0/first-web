@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="">
+{% block head %}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,14 +27,15 @@
     <link rel="stylesheet" type="text/css" href="/static/myhome/css/app.css">
     <script type="text/javascript" src="/static/myhome/js/rem.js"></script>
     <script type="text/javascript" src="/static/myhome/js/topNav.js"></script>
-
 </head>
+{% endblock %}
 <body>
- 
+  
   <!-- 导航 --> 
   <div class="layout-header" id="scroll-wrap">
     <nav class="navbar navbar-default navbar-fixed-top header hidden-xs hidden-sm">
       <div class="container clearfix">
+        
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <div class="layout-header-logo navbar-left">
               <a target="_blank" href="./index.html" class="layout-header-logo-link" alt="魅族科技">
@@ -51,7 +53,7 @@
                   <ul class="layout-user-downmenu-list">
                    
                       <li class="layout-user-downmenu-item">
-                      <a href="login.html" class="layout-user-downmenu-link">个人中心</a>
+                      <a href="{% url 'myhome_info' %}" class="layout-user-downmenu-link">个人中心</a>
                       </li>
                       <li class="layout-user-downmenu-item">
                         <a href="{% url 'myhome_loginout' %}" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_register">退出登录</a>
@@ -113,6 +115,7 @@
         </div>
          <!-- /.navbar-collapse -->
       </div>
+    
      <!-- /.container-fluid -->
      <!-- 鼠标经过出现内容 -->
      <div class="layout-header-nav-child">
@@ -313,304 +316,28 @@
 
     <!-- 头部 侧导航 -->
     <ul class="home-category hidden-xs hidden-sm" id="homeCategory">
+      {% for i in data %}
         <li class="home-category-item">
-          <a href="./list.html" class="home-category-link">
-              手机
+          <a href="JavaScript:;" class="home-category-link">
+            {{i.name}}
           </a>
           <div class="home-category-child clearfix">
             <div class="home-category-child-list clearfix">
-              <a href="./meilanx.html" class="home-category-child-item title" title="魅族手机">
-                魅族手机
+              {% for v in i.sub %}
+              <a href="{% url 'myhome_list' %}?id={{v.id}}" class="home-category-child-item title" title="魅族手机">
+                {{v.name}}
               </a>
+              {% for vv in v.goods_set.all %}
               <a class="home-category-child-item" href="#" target="_blank" >
-                <img class="home-category-child-img" src="/static/myhome/img/nav01.png" height="40" width="40">
-                <div class="home-category-child-text">PRO 7</div>
+                <img class="home-category-child-img" src="{{vv.pic_url}}" height="40" width="40">
+                <div class="home-category-child-text">{{vv.title}}</div>
               </a>
-              <a class="home-category-child-item" href="#" target="_blank" >
-                <img class="home-category-child-img" src="/static/myhome/img/nav02.png" height="40" width="40">
-                <div class="home-category-child-text">PRO 7 Plus</div>
-              </a>
-              <a class="home-category-child-item" href="#" target="_blank" >
-                <img class="home-category-child-img" src="/static/myhome/img/nav03.jpg" height="40" width="40">
-                <div class="home-category-child-text">PRO 6 Plus</div>
-              </a>
-              <a class="home-category-child-item" href="#" target="_blank" >
-                <img class="home-category-child-img" src="/static/myhome/img/nav04.png" height="40" width="40">
-                <div class="home-category-child-text">PRO 6s</div>
-              </a>
-
-              <a href="#" class="home-category-child-item title">
-                魅蓝手机
-              </a>
-              <a class="home-category-child-item" href="#" target="_blank" >
-                <img class="home-category-child-img" src="/static/myhome/img/nav05.jpg" height="40" width="40">
-                <div class="home-category-child-text">魅蓝 A5</div>
-              </a>
-              <a class="home-category-child-item" href="#" target="_blank" >
-                <img class="home-category-child-img" src="/static/myhome/img/nav06.png" height="40" width="40">
-                <div class="home-category-child-text">魅蓝 E2</div>
-              </a>
-              <a class="home-category-child-item" href="#" target="_blank" >
-                <img class="home-category-child-img" src="/static/myhome/img/nav05.jpg" height="40" width="40">
-                <div class="home-category-child-text">魅蓝 5s</div>
-              </a>
-              <a class="home-category-child-item" href="#" target="_blank" >
-                <img class="home-category-child-img" src="/static/myhome/img/nav06.png" height="40" width="40">
-                <div class="home-category-child-text">魅蓝 Note5</div>
-              </a>
-              <a class="home-category-child-item" href="#" target="_blank" >
-                <img class="home-category-child-img" src="/static/myhome/img/nav05.jpg" height="40" width="40">
-                <div class="home-category-child-text">魅蓝 5</div>
-              </a>
-              <a class="home-category-child-item" href="#" target="_blank" >
-                <img class="home-category-child-img" src="/static/myhome/img/nav06.png" height="40" width="40">
-                <div class="home-category-child-text">魅蓝 X</div>
-              </a>
-            </div>
-
-          <div class="home-category-child-ad type1">
-            <a href="#" class="home-category-child-ad-item">
-              <img src="/static/myhome/img/nav001.jpg" alt="" class="home-category-child-ad-img">
-            </a>
-            <a href="#" class="home-category-child-ad-item">
-              <img src="/static/myhome/img/nav002.jpg" alt="" class="home-category-child-ad-img">
-            </a>
+              {% endfor %}
+            {% endfor %}
           </div>
         </div>
       </li>
-      <li class="home-category-item">
-        <a href="#" class="home-category-link">
-            智能设备
-        </a>
-        <div class="home-category-child clearfix">
-          <div class="home-category-child-list clearfix">
-            <a href="#" class="home-category-child-item title">
-              智能健康
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav07.png" height="40" width="40">
-              <div class="home-category-child-text">乐心智能体脂秤</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav07.png" height="40" width="40">
-              <div class="home-category-child-text">乐心心率手环</div>
-            </a>
-            <a href="#" class="home-category-child-item title">
-              智能厨房
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav08.png" height="40" width="40">
-              <div class="home-category-child-text">沁麟智能靠谱煲</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav08.png" height="40" width="40">
-              <div class="home-category-child-text">智能调温养生壶</div>
-            </a>
-             <a href="#" class="home-category-child-item title">
-              智能娱乐
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav08.png" height="40" width="40">
-              <div class="home-category-child-text">魅族盒子</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav08.png" height="40" width="40">
-              <div class="home-category-child-text">魅族路由器 极速版</div>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li class="home-category-item">
-        <a href="#" class="home-category-link">
-            智能穿戴
-        </a>
-        <div class="home-category-child clearfix">
-          <div class="home-category-child-list clearfix">
-            <a href="#" class="home-category-child-item title">
-              手环
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav09.png" height="40" width="40">
-              <div class="home-category-child-text">魅族手环</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav09.png" height="40" width="40">
-              <div class="home-category-child-text">乐心手环MAMBO 升级版</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav09.png" height="40" width="40">
-              <div class="home-category-child-text">Misfit 智能手环</div>
-            </a>
-            <a href="#" class="home-category-child-item title">
-              智能VR
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav09.png" height="40" width="40">
-              <div class="home-category-child-text">纽曼智能3D眼镜</div>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li class="home-category-item">
-        <a href="#" class="home-category-link">
-            游戏设备
-        </a>
-        <div class="home-category-child clearfix">
-          <div class="home-category-child-list clearfix">
-            <a href="#" class="home-category-child-item title">
-              游戏手柄
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav010.png" height="40" width="40">
-              <div class="home-category-child-text">新游智能游戏手柄</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav010.png" height="40" width="40">
-              <div class="home-category-child-text">飞智蓝牙无线手柄</div>
-            </a>
-            <a href="#" class="home-category-child-item title">
-              游戏键鼠
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav010.png" height="40" width="40">
-              <div class="home-category-child-text">雷柏游戏鼠标V26</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav010.png" height="40" width="40">
-              <div class="home-category-child-text">雷柏游戏键盘V56</div>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li class="home-category-item">
-        <a href="#" class="home-category-link">
-            数码影音
-        </a>
-        <div class="home-category-child clearfix">
-          <div class="home-category-child-list clearfix">
-            <a href="#" class="home-category-child-item title">
-              耳机
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav011.png" height="40" width="40">
-              <div class="home-category-child-text">MEIZU-Flow 三单元耳机</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav011.png" height="40" width="40">
-              <div class="home-category-child-text">魅族蓝牙运动耳机</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav011.png" height="40" width="40">
-              <div class="home-category-child-text">先锋蓝牙运动耳机</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav011.png" height="40" width="40">
-              <div class="home-category-child-text">魅族 EP2X耳机</div>
-            </a>
-            <a href="#" class="home-category-child-item title">
-              音箱
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav011.png" height="40" width="40">
-              <div class="home-category-child-text">魅族蓝牙小音箱</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav011.png" height="40" width="40">
-              <div class="home-category-child-text">Beats 蓝牙音响</div>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li class="home-category-item">
-        <a href="#" class="home-category-link">
-            手机配件 / 移动电源
-        </a>
-        <div class="home-category-child clearfix">
-          <div class="home-category-child-list clearfix">
-            <a href="#" class="home-category-child-item title">
-              数据线
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav012.png" height="40" width="40">
-              <div class="home-category-child-text">Type-C数据线</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav012.png" height="40" width="40">
-              <div class="home-category-child-text">Micro USB数据线</div>
-            </a>
-            <a href="#" class="home-category-child-item title">
-              移动电源
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav012.png" height="40" width="40">
-              <div class="home-category-child-text">移动电源标准版</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav012.png" height="40" width="40">
-              <div class="home-category-child-text">小黄人版移动电源</div>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li class="home-category-item">
-        <a href="#" class="home-category-link">
-            移动存储／办公设备
-        </a>
-        <div class="home-category-child clearfix">
-          <div class="home-category-child-list clearfix">
-            <a href="#" class="home-category-child-item title">
-              办公设备
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav013.png" height="40" width="40">
-              <div class="home-category-child-text">雷柏无线键鼠套装</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav013.png" height="40" width="40">
-              <div class="home-category-child-text">飞智蓝牙无线手柄</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav013.png" height="40" width="40">
-              <div class="home-category-child-text">雷柏无线办公鼠标</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav013.png" height="40" width="40">
-              <div class="home-category-child-text">雷柏触控静音鼠标</div>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li class="home-category-item">
-        <a href="#" class="home-category-link">
-            生活周边
-        </a>
-        <div class="home-category-child clearfix">
-          <div class="home-category-child-list clearfix">
-            <a href="#" class="home-category-child-item title">
-              生活周边
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav014.png" height="40" width="40">
-              <div class="home-category-child-text">魅族休闲双肩包</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav014.png" height="40" width="40">
-              <div class="home-category-child-text">魅族旅行包</div>
-            </a>
-            <a href="#" class="home-category-child-item title">
-              手机镜头
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav014.png" height="40" width="40">
-              <div class="home-category-child-text">猎奇 手机镜头套装</div>
-            </a>
-            <a class="home-category-child-item" href="#" target="_blank" >
-              <img class="home-category-child-img" src="/static/myhome/img/nav014.png" height="40" width="40">
-              <div class="home-category-child-text">猎奇手机外置镜头</div>
-            </a>
-          </div>
-        </div>
-      </li>
+      {% endfor %}
     </ul><!-- 头部 侧导航 E-->
     <!-- 头部 豆腐块 -->
     <div class="headDoufu hidden-xs hidden-sm">
@@ -1868,7 +1595,7 @@
     </div>
     <!-- 楼层板块 E-->
   </div>
-  {% endblock %}
+ 
       <!-- 主内容区域  E-->
   <!-- 底部区域 -->
   <footer class="layout-footer  hidden-xs hidden-sm">
@@ -2013,9 +1740,10 @@
         </div>
       </a>
     </div>
-  </div><!-- 返回顶部 E-->     
+  </div><!-- 返回顶部 E-->   
+   {% endblock %}  
 
-
+{% block js %}
   <script type="text/javascript">
   //回顶部
    backTop();
@@ -2026,6 +1754,8 @@
    //
    leftNav();
   </script>
+{% endblock %}
+
     
 </body>
 </html>
