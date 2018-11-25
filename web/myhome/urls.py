@@ -12,7 +12,8 @@ urlpatterns = [
     # 短信验证
     url(r'^sendmsg/$',views.sendmsg,name="sendmsg"),
 
-    url(r'cart/',views.goodscart,name="myhome_cart"),
-    url(r'cartadd/',views.goodscartadd,name="myhome_cartadd"),
-
+    url(r'^cart/$',views.goodscart,name="myhome_cart"),
+    url(r'^cartadd/$',views.goodscartadd,name="myhome_cartadd"),
+    url(r'^cartedit/$',views.goodscartedit,name="myhome_cartedit"),
+    url(r'^cartdel$',views.goodscartdel,name="myhome_cartdel"),
 ]

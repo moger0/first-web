@@ -42,7 +42,7 @@
                 <img src="/static/myhome/img/logo.png">
               </a>
           </div>
-           {% if request.session.vipuser %}
+          {% if request.session.vipuser %}
           <ul class="nav navbar-nav navbar-right layout-header-service clearfix">
             <li class="layout-header-service-item" id="layoutHeaderUser">
                 <a class="layout-header-service-link g-user" href="#">
@@ -59,7 +59,7 @@
                         <a href="{% url 'myhome_loginout' %}" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_register">退出登录</a>
                       </li>
                       <li class="layout-user-downmenu-item">
-                        <a href="#" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_myorder">我的订单</a>
+                        <a href="{% url 'myhome_cart' %}" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_myorder">我的订单</a>
                       </li>
                       <li class="layout-user-downmenu-item">
                         <a href="#" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_mformy">M码通道</a>
@@ -328,7 +328,7 @@
                 {{v.name}}
               </a>
               {% for vv in v.goods_set.all %}
-              <a class="home-category-child-item" href="#" target="_blank" >
+              <a class="home-category-child-item" href="{% url 'myhome_info' %}?id={{vv.id}}" target="_blank" >
                 <img class="home-category-child-img" src="{{vv.pic_url}}" height="40" width="40">
                 <div class="home-category-child-text">{{vv.title}}</div>
               </a>

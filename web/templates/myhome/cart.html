@@ -105,256 +105,48 @@
                 <div class="cart-merchant">
                     <table class="cart-merchant-body">
                         <tbody>
+                            {% for i in data %}
                             <tr class="cart-product" id="pro5">
                                 <td class="cart-col-select col-md-3 col-xs-4 col-sm-4">  
-                                    <div class="mz-checkbox "></div> 
+                                     <input type="checkbox" class="mz-checkbox_y ">
                                     <a href="meilanx.html" class="cart-product-link" target="_blank">
-                                        <img src="static/img/cart/cart2.png" class="cart-product-img" alt="魅蓝 X">
+                                        <img src="{{i.gid.pic_url}}" class="cart-product-img" alt="魅蓝 X">
                                     </a>
                                 </td>
                                 <td class="cart-col-name col-md-3 col-xs-8 col-sm-8">
                                     <a href="meilanx.html" class="cart-product-link" target="_blank">
-                                      <p>魅蓝 X</p>
-                                      <span class="cart-product-desc">全网通公开版 流光金 32GB</span>
+                                      <p>{{i.gid.title}}</p>
+                                      <span class="cart-product-desc" data="{{i.id}}">{{i.gid.info|safe}}</span>
                                     </a>
-                                    <p class="">
-                                        <span class="cart-product-price">1499.00</span>
-                                    </p>
-                                    <div class="cart-col-number">
-                                        <div class="cart-product-number-adder">
-                                            <p class="cart-product-number-max show"></p>
-                                            <div class="mz-adder">
-                                                <button class="mz-adder-subtract disabled"></button>
-                                                <div class="mz-adder-num"><input class="mz-adder-input" value="1" type="text"></div>
-                                                <button class="mz-adder-add"></button>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </td>
+                                   
                                 <td class="cart-col-price col-md-2 hidden-xs hidden-sm">
                                     <p>
-                                        <span class="cart-product-price">1499.00</span>
+                                        <span class="cart-product-price">{{i.gid.price}}</span>
                                     </p>
                                 </td>
                                 <td class="cart-col-number col-md-2 hidden-xs hidden-sm">
                                     <div class="cart-product-number-adder">
                                         <p class="cart-product-number-max show"></p>
                                         <div class="mz-adder">
-                                            <button class="mz-adder-subtract disabled"></button>
-                                            <div class="mz-adder-num"><input class="mz-adder-input" value="1" type="text"></div>
-                                            <button class="mz-adder-add"></button>
+                                            <button class="mz-adder-subtract rec"></button>
+                                            <div class="mz-adder-num"><input data="{{i.gid.id}}" class="mz-adder-input item" value="{{i.gnum}}" type="text"></div>
+                                            <button class="mz-adder-add add"></button>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="cart-col-total col-md-1 hidden-xs hidden-sm">
-                                    <span class="cart-product-price total">1499.00</span>
+                                    {% load tables %}
+                                    <span class="cart-product-price total total_item" data="{{i.id}}">{% pricexj i.gnum i.gid.price %}</span>
                                 </td>
                                 <td class="cart-col-ctrl col-md-1 hidden-xs hidden-sm">
                                     <div class="cart-product-remove">
-                                        <span class="glyphicon glyphicon-remove"></span>
+                                        <span class="glyphicon glyphicon-remove del" cid="{{i.id}}"></span>
                                     </div>
                                 </td>
                             </tr>
-                            <tr class="cart-product" id="pro4">
-                                <td class="cart-col-select col-md-3 col-xs-4 col-sm-4">  
-                                    <div class="mz-checkbox "></div> 
-                                    <a href="meilanx.html" class="cart-product-link" target="_blank">
-                                        <img src="static/img/cart/cart4.png" class="cart-product-img" alt="魅蓝 X">
-                                    </a>
-                                </td>
-                                <td class="cart-col-name col-md-3 col-xs-8 col-sm-8">
-                                    <a href="meilanx.html" class="cart-product-link" target="_blank">
-                                      <p>魅蓝 X</p>
-                                      <span class="cart-product-desc">全网通公开版 珠光白 32GB</span>
-                                    </a>
-                                    <p>
-                                        <span class="cart-product-price">1499.00</span>
-                                    </p>
-                                    <div class="cart-col-number">
-                                        <div class="cart-product-number-adder">
-                                            <p class="cart-product-number-max show"></p>
-                                            <div class="mz-adder">
-                                                <button class="mz-adder-subtract disabled"></button>
-                                                <div class="mz-adder-num"><input class="mz-adder-input" value="1" type="text"></div>
-                                                <button class="mz-adder-add"></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart-col-price col-md-2 hidden-xs hidden-sm">
-                                    <p>
-                                        <span class="cart-product-price">1499.00</span>
-                                    </p>
-                                </td>
-                                <td class="cart-col-number col-md-2 hidden-xs hidden-sm">
-                                    <div class="cart-product-number-adder">
-                                        <p class="cart-product-number-max show"></p>
-                                        <div class="mz-adder">
-                                            <button class="mz-adder-subtract disabled"></button>
-                                            <div class="mz-adder-num"><input class="mz-adder-input" value="1" type="text"></div>
-                                            <button class="mz-adder-add"></button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart-col-total col-md-1 hidden-xs hidden-sm">
-                                    <span class="cart-product-price total">1499.00</span>
-                                </td>
-                                <td class="cart-col-ctrl col-md-1 hidden-xs hidden-sm">
-                                    <div class="cart-product-remove">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="cart-product" id="pro3">
-                                <td class="cart-col-select col-md-3 col-xs-4 col-sm-4">  
-                                    <div class="mz-checkbox "></div> 
-                                    <a href="meilanx.html" class="cart-product-link" target="_blank">
-                                        <img src="static/img/cart/cart5.png" class="cart-product-img" alt="魅族HD50 头戴式耳机">
-                                    </a>
-                                </td>
-                                <td class="cart-col-name col-md-3 col-xs-8 col-sm-8">
-                                    <a href="meilanx.html" class="cart-product-link" target="_blank">
-                                      <p>魅族HD50 头戴式耳机</p>
-                                      <span class="cart-product-desc">红色</span>
-                                    </a>
-                                    <p>
-                                        <span class="cart-product-price">399.00</span>
-                                    </p>
-                                    <div class="cart-col-number">
-                                        <div class="cart-product-number-adder">
-                                            <p class="cart-product-number-max show"></p>
-                                            <div class="mz-adder">
-                                                <button class="mz-adder-subtract disabled"></button>
-                                                <div class="mz-adder-num"><input class="mz-adder-input" value="1" type="text"></div>
-                                                <button class="mz-adder-add"></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart-col-price col-md-2 hidden-xs hidden-sm">
-                                    <p>
-                                        <span class="cart-product-price">399.00</span>
-                                    </p>
-                                </td>
-                                <td class="cart-col-number col-md-2 hidden-xs hidden-sm">
-                                    <div class="cart-product-number-adder">
-                                        <p class="cart-product-number-max show"></p>
-                                        <div class="mz-adder">
-                                            <button class="mz-adder-subtract disabled"></button>
-                                            <div class="mz-adder-num"><input class="mz-adder-input" value="1" type="text"></div>
-                                            <button class="mz-adder-add"></button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart-col-total col-md-1 hidden-xs hidden-sm">
-                                    <span class="cart-product-price total">399.00</span>
-                                </td>
-                                <td class="cart-col-ctrl col-md-1 hidden-xs hidden-sm">
-                                    <div class="cart-product-remove">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="cart-product" id="pro2">
-                                <td class="cart-col-select col-md-3 col-xs-3 col-sm-3">  
-                                    <div class="mz-checkbox "></div> 
-                                    <a href="meilanx.html" class="cart-product-link" target="_blank">
-                                        <img src="static/img/cart/cart1.png" class="cart-product-img" alt="魅族智能体脂秤">
-                                    </a>
-                                </td>
-                                <td class="cart-col-name col-md-3 col-xs-3 col-sm-3">
-                                    <a href="meilanx.html" class="cart-product-link" target="_blank">
-                                      <p>魅族智能体脂秤</p>
-                                      <span class="cart-product-desc">白色</span>
-                                    </a>
-                                    <p>
-                                        <span class="cart-product-price">169.00</span>
-                                    </p>
-                                    <div class="cart-col-number">
-                                        <div class="cart-product-number-adder">
-                                            <p class="cart-product-number-max show"></p>
-                                            <div class="mz-adder">
-                                                <button class="mz-adder-subtract disabled"></button>
-                                                <div class="mz-adder-num"><input class="mz-adder-input" value="1" type="text"></div>
-                                                <button class="mz-adder-add"></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart-col-price col-md-2 hidden-xs hidden-sm">
-                                    <p>
-                                        <span class="cart-product-price">169.00</span>
-                                    </p>
-                                </td>
-                                <td class="cart-col-number col-md-2 hidden-xs hidden-sm">
-                                    <div class="cart-product-number-adder">
-                                        <p class="cart-product-number-max show"></p>
-                                        <div class="mz-adder">
-                                            <button class="mz-adder-subtract disabled"></button>
-                                            <div class="mz-adder-num"><input class="mz-adder-input" value="1" type="text"></div>
-                                            <button class="mz-adder-add"></button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart-col-total col-md-1 hidden-xs hidden-sm">
-                                    <span class="cart-product-price total">169.00</span>
-                                </td>
-                                <td class="cart-col-ctrl col-md-1 hidden-xs hidden-sm">
-                                    <div class="cart-product-remove">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="cart-product" id="pro1">
-                                <td class="cart-col-select col-md-3 col-xs-4 col-sm-4">  
-                                    <div class="mz-checkbox "></div> 
-                                    <a href="meilanx.html" class="cart-product-link" target="_blank">
-                                        <img src="static/img/cart/cart3.png" class="cart-product-img" alt="魅族 PRO 7">
-                                    </a>
-                                </td>
-                                <td class="cart-col-name col-md-3 col-xs-8 col-sm-8">
-                                    <a href="meilanx.html" class="cart-product-link" target="_blank">
-                                      <p>魅族 PRO 7</p>
-                                      <span class="cart-product-desc">全网通公开版 提香红 4GB+64GB</span>
-                                    </a>
-                                    <p>
-                                        <span class="cart-product-price">2880.00</span>
-                                    </p>
-                                    <div class="cart-col-number">
-                                        <div class="cart-product-number-adder">
-                                            <p class="cart-product-number-max show"></p>
-                                            <div class="mz-adder">
-                                                <button class="mz-adder-subtract disabled"></button>
-                                                <div class="mz-adder-num"><input class="mz-adder-input" value="1" type="text"></div>
-                                                <button class="mz-adder-add"></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart-col-price col-md-2 hidden-xs hidden-sm">
-                                    <p>
-                                        <span class="cart-product-price">2880.00</span>
-                                    </p>
-                                </td>
-                                <td class="cart-col-number col-md-2 hidden-xs hidden-sm">
-                                    <div class="cart-product-number-adder">
-                                        <p class="cart-product-number-max show"></p>
-                                        <div class="mz-adder">
-                                            <button class="mz-adder-subtract disabled"></button>
-                                            <div class="mz-adder-num"><input class="mz-adder-input" value="1" type="text"></div>
-                                            <button class="mz-adder-add"></button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="cart-col-total col-md-1 hidden-xs hidden-sm">
-                                    <span class="cart-product-price total">2880.00</span>
-                                </td>
-                                <td class="cart-col-ctrl col-md-1  hidden-xs hidden-sm">
-                                    <div class="cart-product-remove">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </div>
-                                </td>
-                            </tr>
+                            {% endfor %}
+                            
                         </tbody>
                     </table>
                 </div>
@@ -365,8 +157,8 @@
             <div class="container">
                <div class="cart-footer-left col-md-6 col-xs-4 col-sm-4">
                    <div class="cart-select-all JSelectAll" data-mdesc="全选按钮" data-mtype="store_cart_all">
-                        <div class="mz-checkbox"></div>
-                        <span class="cart-select-title">全选</span>
+                        
+                        <input type="checkbox" class="cart-select-title checked">全选
                    </div>
                    <!-- <span class="cart-remove-selected" id="removeSelected">删除选中的商品</span> -->
                    <span class="cart-footer-count">
@@ -380,12 +172,119 @@
                         <span class="cart-footer-text">已优惠</span>
                         <span class="cart-footer-num red" id="totalDiscount">0.00</span>
                         <span class="cart-footer-text">元， 合计(不含运费)：</span>
-                        <span class="cart-footer-total" id="totalPrice"></span>
+                        <span class="cart-footer-total" id="totalPrice">0</span>
                     </span>
                     <div class="mz-btn success" id="cartSubmit">去结算</div>
                 </div>
             </div>
         </div><!-- 结算详情 E-->
+
+        <script type="text/javascript">
+             // 1. 便利后台传过来的数据  自定义标签计算小计
+            // 2.加减  
+                //  获取数量 修改数量  重新赋值
+            // 3.当选中商品时 计算数量和小计 将总数量和小计写入到最下面合计
+                //给多选框添加单击事件
+                // 判断有没有选中 选中就计算 没选中不计算
+
+            // 4.发送数据 当数量发生变化发送ajax修改数据库数据 返回当前商品的id 和计算价格
+
+            // 5. 全选  当单机全选按钮  商品的选中状态也发生变化
+
+            // 加减 数据要返回给后台数据库要更新
+            $('td').on('click','.rec',function(){
+                // 获取当前的数量
+                inp = $(this).next().find('.mz-adder-input')
+                // 修改数量
+                inp.val(Number(inp.val())-1)
+                if(inp.val()<1){
+                    inp.val(1)
+                }
+                // 调用变化函数
+                changenum(inp)
+                sumA()
+            })
+
+            // 加
+            $('td').on('click','.add',function(){
+                // 获取当前的数量
+                inp = $(this).prev().find('.mz-adder-input')
+                // 修改数量
+                inp.val(Number(inp.val())+1)
+                // 调用变化函数
+                changenum(inp)
+                sumA()
+            })   
+
+            // 手动输入
+            $('td').on('blur','.item',function(){
+                changenum($(this))
+            })
+
+            // 计算数量和价格 选多选框
+            $('td').on('click','.mz-checkbox_y',function(){
+                sumA()
+            })
+
+            // 计算的函数
+            function sumA(){
+                var totalnum = 0;
+                var totalprice = 0;
+                // 遍历所有的多选框
+                $('.mz-checkbox_y').each(function(){
+                    // 获取多选框的状态
+                    var res = $(this).prop('checked')
+                    // 如果选中就累加
+                    if(res){
+                        totalnum += Number($(this).parents('tr').find('.item').val());
+                        totalprice += Number($(this).parents('tr').find('.total_item').text());
+                    }
+                })
+                // 将计算好的数据写入到下面 合计
+                $('#totalCount').html(totalnum)
+                $('#totalPrice').html(totalprice)
+            }
+
+
+            // 全选
+            $('.checked').click(function(){
+                $('.mz-checkbox_y').prop('checked',$(this).prop('checked'))
+                // 重新计算价格
+                sumA()
+            })
+
+            // 删除
+            $('td').on('click','.del',function(){
+                // 当前单击的商品id
+                var cid = $(this).attr('cid');
+                var el = $(this);
+                $.get('{% url "myhome_cartdel" %}',{'cid':cid},function(data){
+                    alert('删除成功')
+                    // 删除元素节点
+                    el.parents('tr').remove()
+                })
+            })
+
+            // 检测数量的变化
+            function changenum(nums){
+                // 当按下加或者按下减  发送数据
+                // 判断数量不能小于1
+                if(Number(nums.val())<1){
+                    return;
+                }
+                // 获取商品id
+                console.log(nums.attr('data'))
+                $.get('{% url "myhome_cartedit" %}',{'num':Number(nums.val()),'gid':nums.attr('data')},function(data){
+                    console.log(data)
+
+                    $('span[data='+data['cid']+']').html(data['pricesum'])
+                    sumA()
+                })
+            }
+        </script>>
+
+
+
     </div>
     <!-- 主内容区域 E-->
     
@@ -539,9 +438,9 @@
             //回顶部
             backTop();
             //全选
-            allSelect();
+            // allSelect();
             //商品数量加减
-            cartAddMin();
+            // cartAddMin();
     </script>
 </body>
 

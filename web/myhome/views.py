@@ -101,8 +101,43 @@ def checkregister(request):
         return JsonResponse({"error":1,'msg':'用户名可用'})
 
 def goodscart(request):
-    return render(request,'myhome/cart.html')
+    # 查询数据库的数据
+    userphone = request.session['vipuser']['phone']
+    user = models.Users.objects.get(phone=userphone)
+    print(user.id)
+    goods = user.cart_set.all()
 
+    # 去购物车库拿当前用户对应的商品
+    # g = models.Cart.filter(uid=user.id)
+    return render(request,'myhome/cart.html',{'data':goods})
+
+def goodscartedit(request):
+    # 接收数据 并修改 
+    data = request.GET.dict()
+    user = models.Users.objects.get(phone=request.session['vipuser']['phone'])
+    good = models.Goods.objects.get(id=data['gid'])
+    # 修改数据
+    goods = models.Cart.objects.filter(uid=user).filter(gid=good)
+    # 查询集更新数据时必须遍历更新
+    pricesum = 0
+    for i in goods:
+        i.gnum = data['num']
+        i.save()
+        cid = i.id
+        pricesum = float(i.gnum)*float(i.gid.price)
+
+    return JsonResponse({'error':1,'pricesum':pricesum,'cid':cid})
+
+# 删除购物车数据
+def goodscartdel(request):
+    # 接收id
+    cid = request.GET.get('cid')
+    # 删数据
+    ob = models.Cart.objects.get(id=cid)
+    ob.delete()
+    return JsonResponse({'error':1})
+
+# 购物车
 def goodscartadd(request):
     # 接收用户id 商品id
     data = request.GET.dict()
@@ -111,6 +146,11 @@ def goodscartadd(request):
     ob = models.Cart.objects.filter(uid=user).filter(gid=goods)
     # 判断有没有这个商品
     # print(ob.count()) # <query [{},{}]>
+    # 查询集两大特性
+    # (1)惰性执行：创建查询集不会访问数据库，直到调用数据时，才会访问数据库，调用数据的情况包括迭代、序列化、与if合用。
+    # (2)缓存：使用同一个查询集，第一次使用时会发生数据库的查询，然后把结果缓存下来，再次使用这个查询集时会使用缓存的数据。
+    # 对查询集进行切片后返回一个新的查询集，不会立即执行查询。
+    # 如果获取一个对象，直接使用[0]，等同于[0:1].get()，但是如果没有数据，[0]引发IndexError异常
     try:
         if ob:
             for i in ob:
