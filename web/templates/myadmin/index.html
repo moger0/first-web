@@ -235,9 +235,7 @@
                             <a href="{% url 'myadmin_cates_list' %}">
                                 <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 分类列表
                             </a>
-                        </li>
-
-                        
+                        </li>        
                     </ul>
                 </li>
 
@@ -252,9 +250,23 @@
                             <a href="{% url 'myadmin_goods_list' %}">
                                 <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 商品列表
                             </a>
-                        </li>
+                        </li>          
+                    </ul>
+                </li>
 
-                        
+
+                <li class="sidebar-nav-link">
+                    <a href="javascript:;" class="sidebar-nav-sub-title">
+                        <i class="am-icon-table sidebar-nav-link-logo"></i> 订单管理
+
+                        <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                    </a>
+                    <ul class="sidebar-nav sidebar-nav-sub">
+                        <li class="sidebar-nav-link">
+                            <a href="{% url 'myadmin_orderlist' %}">
+                                <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 订单列表
+                            </a>
+                        </li>        
                     </ul>
                 </li>
 
@@ -283,7 +295,7 @@
 
 
                 <li class="sidebar-nav-link">
-                    <a href="sign-up.html">
+                    <!-- <a href="sign-up.html">
                         <i class="am-icon-clone sidebar-nav-link-logo"></i> 注册
                         <span class="am-badge am-badge-secondary sidebar-nav-link-logo-ico am-round am-fr am-margin-right-sm">6</span>
                     </a>
@@ -292,9 +304,9 @@
                     <a href="login.html">
                         <i class="am-icon-key sidebar-nav-link-logo"></i> 登录
                     </a>
-                </li>
+                </li> -->
                 <li class="sidebar-nav-link">
-                    <a href="404.html">
+                    <a href="{% url 'myadmin_index404' %}">
                         <i class="am-icon-tv sidebar-nav-link-logo"></i> 404错误
                     </a>
                 </li>
@@ -558,7 +570,6 @@
     <script src="/static/myadmin/js/amazeui.datatables.min.js"></script>
     <script src="/static/myadmin/js/dataTables.responsive.min.js"></script>
     <script src="/static/myadmin/js/app.js"></script>
-
 </body>
 
 </html>

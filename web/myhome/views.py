@@ -130,12 +130,15 @@ def goodscartedit(request):
 
 # 删除购物车数据
 def goodscartdel(request):
-    # 接收id
-    cid = request.GET.get('cid')
-    # 删数据
-    ob = models.Cart.objects.get(id=cid)
-    ob.delete()
-    return JsonResponse({'error':1})
+    try:
+        # 接收id
+        cid = request.GET.get('cid')
+        # 删数据
+        ob = models.Cart.objects.get(id=cid)
+        ob.delete()
+        return JsonResponse({'error':1})
+    except:
+        return JsonResponse({'error':0})
 
 # 购物车
 def goodscartadd(request):
@@ -178,6 +181,121 @@ def goodscartadd(request):
         return JsonResponse({'error':1})
     except:
         return JsonResponse({'error':0})
+
+
+# 确认订单页
+def goodsconfirm(request):
+    # 获取用于提交的id
+    res = request.GET.get('cid')
+    clist = res.split(',')
+    # 查询数据
+    data = models.Cart.objects.filter(id__in=clist)
+    # 查地址
+    user = models.Users.objects.get(phone=request.session['vipuser']['phone'])
+    # 当前用户有多少个地址
+    address = models.Address.objects.filter(uid=user.id)
+    # 蒋数据序列化 [{},{}]
+    adds = list(address.values())
+    # 循环每一条数据 通过县乡 找到对应的省和市
+    for i in adds:
+        xq = models.Citys.objects.get(id=i['zhen_id'])
+        shi = models.Citys.objects.get(id=xq.upid)
+        sheng = models.Citys.objects.get(id=shi.upid)
+        i['shi'] = shi.name
+        i['sheng'] = sheng.name
+        i['zhen_id'] = xq.name
+    print(adds)
+    # 查询一级城市数据
+    citys = models.Citys.objects.filter(level = 1)
+    return render(request,'myhome/confirm.html',{'data':data,'citys':citys,'address':adds})
+
+
+
+# 获取地址
+def goodscitys(request):
+    # 获取用户提交的数据
+    uid = request.GET.get('upid')
+    # 查询数据
+    data = models.Citys.objects.filter(upid=uid).values()
+    # 返回数据
+    return JsonResponse(list(data),safe=False)
+
+def addressdel(request):
+    # 接收id
+    cid = request.GET.get('cid')
+    # 删数据
+    ob = models.Address.objects.get(id=cid)
+    ob.delete()
+    return JsonResponse({'error':1})
+
+# 添加地址
+def saveadd(request):
+    # 获取用户数据
+    data = request.GET.dict()
+    try:
+        # 存储数据
+        ob = models.Address()
+        ob.uid = models.Users.objects.get(phone=request.session['vipuser']['phone'])
+        ob.name = data['name']
+        ob.phone = data['phone']
+        ob.zhen = models.Citys.objects.get(id=data['citys'])
+        ob.info = data['info']
+        ob.save()
+        return JsonResponse({'error':1})
+    except:
+        return JsonResponse({'error':0})
+
+# 生成订单
+def orderconfirm(request):
+    # 获取用户的数据
+    orderdata = request.POST.dict()
+    orderdata.pop('csrfmiddlewaretoken')
+    # 获取用户对象
+    orderdata['uid']=models.Users.objects.get(phone=request.session['vipuser']['phone'])
+    # 地址
+    address = models.Address.objects.get(id=orderdata['addrid'])
+    xq = models.Citys.objects.get(id=address.zhen_id)
+    shi = models.Citys.objects.get(id=xq.upid)
+    sheng = models.Citys.objects.get(id=shi.upid)
+    # print(xq.name,shi.name,sheng.name)
+    orderdata['addr']=sheng.name+shi.name+xq.name+address.info
+
+    # 总价格
+    res = orderdata['cid'].split(',')
+    # 查询数据
+    goos = models.Cart.objects.filter(id__in=res)
+    pricesume = 0
+    for i in goos:
+        pricesume += i.gnum*i.gid.price
+
+    orderdata['price']=pricesume
+
+    # 删除不需要的数据
+    orderdata.pop('cid')
+    orderdata.pop('addrid')
+    print(orderdata,res)
+    # 添加数据
+    order = models.Order(**orderdata)
+    order.save()
+
+    # 添加订单详情 一个订单有多个商品 一个商品就是一个订单详情 
+    for i in res:
+        orderinfo = models.Orderinfo() 
+        orderinfo.ordid = order
+        goods = models.Cart.objects.get(id=i)
+        orderinfo.gid = goods.gid.id
+        orderinfo.title = goods.gid.title
+        orderinfo.num = goods.gnum
+        orderinfo.pic_url = goods.gid.pic_url
+        orderinfo.save()
+
+        # 删除购物车里的东西
+        goods.delete()
+
+    # return HttpResponse('支付页面')
+    return HttpResponse('<script>alert("订单创建成功,确定返回主页");location.href="'+reverse('myhome_index')+'"</script>')
+
+
 
 
 

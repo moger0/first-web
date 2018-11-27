@@ -10,6 +10,7 @@
      <meta name="keywords" content="魅蓝 X，魅族，魅族商城">      <link href="/static/myhome/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
       <link href="/static/myhome/img/favicon.ico" rel="icon" type="image/x-icon">
      <!-- Bootstrap -->
+     ''
      <link href="/static/myhome/css/bootstrap.min.css" rel="stylesheet">
      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
      <script src="/static/myhome/js/jquery-1.12.4.min.js"></script>
@@ -40,7 +41,7 @@
         
        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <div class="layout-header-logo navbar-left">
-              <a target="_blank" href="./index.html" class="layout-header-logo-link" alt="魅族科技">
+              <a href="{% url 'myhome_index' %}" class="layout-header-logo-link" alt="魅族科技">
                 <img src="/static/myhome/img/logo.png">
               </a>
           </div>
@@ -55,7 +56,7 @@
                   <ul class="layout-user-downmenu-list">
                    
                       <li class="layout-user-downmenu-item">
-                      <a href="{% url 'myhome_info' %}" class="layout-user-downmenu-link">个人中心</a>
+                      <a href="{% url 'myhome_index' %}" class="layout-user-downmenu-link">个人中心</a>
                       </li>
                       <li class="layout-user-downmenu-item">
                         <a href="{% url 'myhome_loginout' %}" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_register">退出登录</a>
@@ -66,6 +67,17 @@
                       <li class="layout-user-downmenu-item">
                         <a href="#" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_mformy">M码通道</a>
                       </li>
+                      </ul>
+                </div>
+                </li>
+                <li class="layout-header-service-item layout-header-service-cart" id="layoutHeaderCart">
+                    <a class="layout-header-service-link" href="{% url 'myhome_cart' %}" data-mtype="wmz_public_yt_cart">
+                        <i class="glyphicon glyphicon-shopping-cart"></i>
+                         {% load tables %}
+                        <span class="layout-header-service-cart-num">{% count request.session.vipuser.phone %}</span>
+                    </a>
+                </li>
+              </ul>
                     {% else %}
                     <ul class="nav navbar-nav navbar-right layout-header-service clearfix">
                     <li class="layout-header-service-item" id="layoutHeaderUser">
@@ -87,21 +99,24 @@
                       <li class="layout-user-downmenu-item">
                         <a href="#" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_mformy">M码通道</a>
                       </li>
-                    {% endif %}
+                    
                     
                   </ul>
                 </div>
             </li>
             <li class="layout-header-service-item layout-header-service-cart" id="layoutHeaderCart">
-                <a class="layout-header-service-link" href="#" data-mtype="wmz_public_yt_cart">
+                <a class="layout-header-service-link" href="{% url 'myhome_cart' %}" data-mtype="wmz_public_yt_cart">
                     <i class="glyphicon glyphicon-shopping-cart"></i>
-                    <span class="layout-header-service-cart-num">0</span>
+                     
+                    <span class="layout-header-service-cart-num">0 </span>
                 </a>
             </li>
           </ul>
+          {% endif %}
+
           <ul class="nav navbar-nav navbar-right layout-header-nav clearfix">
             <li class="layout-header-nav-item">
-              <a href="./index.html" class="layout-header-nav-link">魅族商城 </a><p class="line-top hidden-xs"></p>
+              <a href="{% url 'myhome_index' %}" class="layout-header-nav-link">魅族商城 </a><p class="line-top hidden-xs"></p>
             </li>
             <li class="layout-header-nav-item">
               <a href="./list.html" class="layout-header-nav-link">魅族手机</a>
@@ -378,21 +393,25 @@
             </dl>
             <div class="property-buy-action">
                 <a data-mtype="store_de_buy" href="javascript:void(0);" id="J_btnBuy" class="btn btn-danger btn-lg mr20">立即购买</a>
-                <a data-mtype="store_de_cart" href="javascript:void(0);" id="J_btnAddCart" class="btn btn-primary btn-lg " style="display:inline-block;"><i></i>加入购物车</a>
+                <a data-mtype="store_de_cart" href="javascript:void(0);" id="J_btnAddCart" phone="{{request.session.vipuser.phone}}" gid="{{data.id}}" class="btn btn-primary btn-lg " style="display:inline-block;"><i></i>加入购物车</a>
                 <span class="vm-service" id="J_panicBuyingWrap"></span>
             </div>
 
              <script type="text/javascript">
-              // 添加单机时间
+              // 添加单机事件
               $('#J_btnAddCart').click(function(){
                 // 判断用户是否登录
-                {% if request.session.vipuser.phone %}
-                 var phone =  {{request.session.vipuser.phone}};
-                 {% else %}
-                 var phone = '';
-                 {% endif %}
+                // {% if request.session.vipuser.phone %}
+                // var phone =  {{request.session.vipuser.phone}};
+                // {% else %}
+                // var phone = '';
+                // {% endif %}
 
-                 var gid = {{data.id}}
+                //  var gid = {{data.id}}
+
+                var phone = $(this).attr('phone')
+                var gid = $(this).attr('gid')
+
                  // 获取数量
                  var num = $('#J_quantity').val()
                  if(phone){
@@ -400,6 +419,7 @@
                       // 根据返回的数据判断有没有添加成功
                       if(data['error']==1){
                         alert('添加成功')
+                        history.go(0)
                       }else{
                         alert('添加失败')
                       }

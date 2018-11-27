@@ -50,8 +50,8 @@ def goodslist(request):
     if types == 'price':
             ob = ob.filter(price_gte=int(keywords))
     # 调用 分页
-    return limit(request,ob,1,'myadmin/goods/userlist.html')
-    # return render(request,'myadmin/goods.userlist.html'{'info':ob})
+    return limit(request,ob,1,'myadmin/goods/goodslist.html')
+    # return render(request,'myadmin/goods.goodslist.html'{'info':ob})
 
 def goodsdel(request):   
 # 获取要删除的分类的id    

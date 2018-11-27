@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" class="">
-  
+{% extends 'myhome/index.html' %}
+
+{% block head %}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,7 +32,9 @@
     <script type="text/javascript" src="/static/myhome/js/rem.js"></script>
     <script type="text/javascript" src="/static/myhome/js/topNav.js"></script>
 </head>
-  
+{% endblock %}
+
+{% block cont %}
 <body class="cart-app">
     <!-- 导航 -->
     <div class="layout-header" id="scroll-wrap">
@@ -40,7 +42,7 @@
             <div class="container clearfix">
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <div class="layout-header-logo navbar-left">
-                        <a target="_blank" href="./index.html" class="layout-header-logo-link" alt="魅族科技">
+                        <a href="{% url 'myhome_index' %}" class="layout-header-logo-link" alt="魅族科技">
                             <img src="/static/myhome/img/logo.png">
                         </a>
                     </div>
@@ -108,7 +110,7 @@
                             {% for i in data %}
                             <tr class="cart-product" id="pro5">
                                 <td class="cart-col-select col-md-3 col-xs-4 col-sm-4">  
-                                     <input type="checkbox" class="mz-checkbox_y ">
+                                     <input cid="{{i.id}}" type="checkbox" class="mz-checkbox_y ">
                                     <a href="meilanx.html" class="cart-product-link" target="_blank">
                                         <img src="{{i.gid.pic_url}}" class="cart-product-img" alt="魅蓝 X">
                                     </a>
@@ -180,6 +182,27 @@
         </div><!-- 结算详情 E-->
 
         <script type="text/javascript">
+
+            // 单击结算页面跳转
+            $('#cartSubmit').click(function(){
+                var res = sumA()
+                console.log(res)
+                if(res[0]){
+                    // 跳转
+                location.href='{% url "myhome_order" %}?cid='+res;
+            }else{
+                alert('请选择商品')
+            }
+                
+            })
+
+
+
+
+
+
+
+
              // 1. 便利后台传过来的数据  自定义标签计算小计
             // 2.加减  
                 //  获取数量 修改数量  重新赋值
@@ -230,6 +253,7 @@
             function sumA(){
                 var totalnum = 0;
                 var totalprice = 0;
+                var cid = []
                 // 遍历所有的多选框
                 $('.mz-checkbox_y').each(function(){
                     // 获取多选框的状态
@@ -238,11 +262,16 @@
                     if(res){
                         totalnum += Number($(this).parents('tr').find('.item').val());
                         totalprice += Number($(this).parents('tr').find('.total_item').text());
+                        // 将选中的商品id写入到cid数组里面
+                        cid.push($(this).attr('cid'))
                     }
                 })
                 // 将计算好的数据写入到下面 合计
                 $('#totalCount').html(totalnum)
                 $('#totalPrice').html(totalprice)
+
+                // 将cid返回
+                return cid;
             }
 
 
@@ -260,6 +289,7 @@
                 var el = $(this);
                 $.get('{% url "myhome_cartdel" %}',{'cid':cid},function(data){
                     alert('删除成功')
+                    history.go(0)
                     // 删除元素节点
                     el.parents('tr').remove()
                 })
@@ -281,7 +311,7 @@
                     sumA()
                 })
             }
-        </script>>
+        </script>
 
 
 
@@ -434,6 +464,9 @@
         </div>
     </div>
     <!-- 返回顶部 E-->
+     {% endblock %}
+
+    {% block js %}
     <script type="text/javascript">
             //回顶部
             backTop();
@@ -442,6 +475,4 @@
             //商品数量加减
             // cartAddMin();
     </script>
-</body>
-
-</html>
+    {% endblock %}

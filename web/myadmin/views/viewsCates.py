@@ -47,7 +47,7 @@ def cateslist(request):
             # 女装
         # 数码
             # 手机
-    # return render(request,'myadmin/cates/userlist.html',{'info':ob})
+    # return render(request,'myadmin/cates/cateslist.html',{'info':ob})
     keywords = request.GET.get('keywords','')
     types = request.GET.get('types','')
     search = {'keywords':keywords,'types':types}
@@ -134,4 +134,4 @@ def fpage(request,ob,search):
     print(pag_list)
 
 
-    return render(request,'myadmin/cates/userlist.html',{"info":pagedata,'pagenums':pag_list,'pg':pg,'search':search})
+    return render(request,'myadmin/cates/cateslist.html',{"info":pagedata,'pagenums':pag_list,'pg':pg,'search':search})

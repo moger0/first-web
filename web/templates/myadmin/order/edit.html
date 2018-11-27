@@ -1,0 +1,89 @@
+{% extends 'myadmin/index.html' %}
+{% block title %}
+<title>修改数据</title>
+{% endblock %}
+{% block content %}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading">
+                <span class="am-icon-home page-header-heading-icon"></span>表单
+                <small>Amaze UI</small></div>
+            <p class="page-header-description">Amaze UI 有许多不同的表格可用。</p></div>
+        <div class="am-u-lg-3 tpl-index-settings-button">
+            <button type="button" class="page-header-button">
+                <span class="am-icon-paint-brush"></span>设置</button>
+        </div>
+    </div>
+</div>
+<div class="row-content am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+            <div class="widget am-cf">
+                <div class="widget-head am-cf">
+                    <div class="widget-title am-fl">修改订单</div>
+                    <div class="widget-function am-fr">
+                        <a href="javascript:;" class="am-icon-cog"></a>
+                    </div>
+                </div>
+                <div class="widget-body am-fr">
+                    <form class="am-form tpl-form-line-form" action="{% url 'myadmin_orderedit' %}?id={{info.id}}" enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                        <div class="am-form-group">
+                            <input type="hidden" name="id" value="{{info.id}}">
+                        </div>
+                        <div class="am-form-group">
+                            <input type="hidden" name="id" value="{{info.id}}">
+                            <label for="user-name" class="am-u-sm-3 am-form-label">地址
+                                <span class="tpl-form-line-small-title">Title</span></label>
+                            <div class="am-u-sm-9">
+                                <input type="text" name="addr" class="tpl-form-input" id="user-name" value="{{info.addr}}" placeholder="请输入标题文字">
+                                <small>请填写标题文字10-20字左右。</small></div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="user-name" class="am-u-sm-3 am-form-label">wl
+                                <span class="tpl-form-line-small-title">Title</span></label>
+                            <div class="am-u-sm-9">
+                                <input type="text" name="wl"   class="tpl-form-input" id="user-name" value="{{info.wl}}" placeholder="请输入标题文字">
+                                <small>请填写标题文字10-20字左右。</small></div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="user-name" class="am-u-sm-3 am-form-label">支付方式
+                                <span class="tpl-form-line-small-title">Title</span></label>
+                            <div class="am-u-sm-9">
+                                <input type="text" name="paytype" value="{{info.paytype}}" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
+                                <small>请填写标题文字10-20字左右。</small></div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-3 am-form-label">价格
+                                <span class="tpl-form-line-small-title">SEO</span></label>
+                            <div class="am-u-sm-9">
+                                <input type="text" name="price" value="{{info.price}}" placeholder="输入SEO关键字"></div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label class="am-u-sm-3 am-form-label">状态
+                                <span class="tpl-form-line-small-title">SEO</span></label>
+                            <div class="am-u-sm-9">
+                                <input type="radio" name="status" {% if info.status == '0' %} checked {% endif %} value="0"> 正常
+                                <input type="radio" name="status" {% if info.status == '1' %} checked {% endif %} value="1"> 删除
+                            </div>
+                        </div>
+                      
+                       
+                       
+
+                        
+                      
+                        <div class="am-form-group">
+                            <div class="am-u-sm-9 am-u-sm-push-3">
+                                <button  class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</div>
+{% endblock %}

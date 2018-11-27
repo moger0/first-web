@@ -12,6 +12,9 @@ from django.db.models import Q
 def index(request):
     return render(request,'myadmin/index.html')
 
+def index404(request):
+    return render(request,'404.html')
+
 def login(request):
     if request.method=="GET":
         # 返回登录页面

@@ -56,3 +56,46 @@ class Cart(models.Model):
     uid = models.ForeignKey(to='Users')
     gid = models.ForeignKey(to='Goods')
     gnum = models.IntegerField()
+
+class Address(models.Model):
+    # uid 省 市 县/区 收货人 联系方式 详细地址
+    uid = models.ForeignKey(to="Users")
+    name = models.CharField(max_length=10)
+    phone = models.CharField(max_length=11)
+
+    # sheng = models.ForeignKey(to='Citys')
+    # shi = models.ForeignKey(to='Citys')
+    zhen =  models.ForeignKey(to="Citys")
+
+    info = models.CharField(max_length=255)
+
+    isselect = models.BooleanField(default=0)
+
+
+class Citys(models.Model):
+    name = models.CharField(max_length=30)
+    level = models.IntegerField()
+    upid = models.IntegerField()
+
+
+# 订单
+  #id uid  地址   物流信息 支付信息 状态
+  # 1  1   地址 
+class Order(models.Model):
+    uid = models.ForeignKey(to="Users")
+    addr = models.CharField(max_length=255)
+    wl = models.CharField(max_length=50)
+    paytype = models.CharField(max_length=30)
+    price = models.IntegerField(default=0)
+    # 0 未付款 1已付款 2未发货 3已发货 
+    status = models.IntegerField(default=0)
+    addtime = models.DateTimeField(auto_now_add=True)
+
+# 订单详情
+  # orderid gid   商品标题 购买数量 
+class Orderinfo(models.Model):
+    ordid = models.ForeignKey(to="Order")
+    gid = models.IntegerField()
+    title = models.CharField(max_length=100)
+    num = models.IntegerField()
+    pic_url = models.CharField(max_length=100)

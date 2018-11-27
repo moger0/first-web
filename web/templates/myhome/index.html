@@ -38,7 +38,7 @@
         
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <div class="layout-header-logo navbar-left">
-              <a target="_blank" href="./index.html" class="layout-header-logo-link" alt="魅族科技">
+              <a  href="{% url 'myhome_index' %}" class="layout-header-logo-link" alt="魅族科技">
                 <img src="/static/myhome/img/logo.png">
               </a>
           </div>
@@ -53,7 +53,7 @@
                   <ul class="layout-user-downmenu-list">
                    
                       <li class="layout-user-downmenu-item">
-                      <a href="{% url 'myhome_info' %}" class="layout-user-downmenu-link">个人中心</a>
+                      <a href="{% url 'myhome_index' %}" class="layout-user-downmenu-link">个人中心</a>
                       </li>
                       <li class="layout-user-downmenu-item">
                         <a href="{% url 'myhome_loginout' %}" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_register">退出登录</a>
@@ -64,6 +64,17 @@
                       <li class="layout-user-downmenu-item">
                         <a href="#" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_mformy">M码通道</a>
                       </li>
+                     </ul>
+                  </div>
+              </li>
+              <li class="layout-header-service-item layout-header-service-cart" id="layoutHeaderCart">
+                  <a class="layout-header-service-link" href="{% url 'myhome_cart' %}" data-mtype="wmz_public_yt_cart">
+                      <i class="glyphicon glyphicon-shopping-cart"></i>
+                      {% load tables %}
+                      <span class="layout-header-service-cart-num">{% count request.session.vipuser.phone %}</span>
+                  </a>
+              </li>
+            </ul>
                     {% else %}
                     <ul class="nav navbar-nav navbar-right layout-header-service clearfix">
                     <li class="layout-header-service-item" id="layoutHeaderUser">
@@ -85,21 +96,24 @@
                       <li class="layout-user-downmenu-item">
                         <a href="#" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_mformy">M码通道</a>
                       </li>
-                    {% endif %}
+                   
                     
                   </ul>
                 </div>
             </li>
             <li class="layout-header-service-item layout-header-service-cart" id="layoutHeaderCart">
-                <a class="layout-header-service-link" href="#" data-mtype="wmz_public_yt_cart">
+                <a class="layout-header-service-link" href="{% url 'myhome_cart' %}" data-mtype="wmz_public_yt_cart">
                     <i class="glyphicon glyphicon-shopping-cart"></i>
-                    <span class="layout-header-service-cart-num">0</span>
+                   
+                    <span class="layout-header-service-cart-num">0 </span>
                 </a>
             </li>
           </ul>
+           {% endif %}
+
           <ul class="nav navbar-nav navbar-right layout-header-nav clearfix">
             <li class="layout-header-nav-item">
-              <a href="./index.html" class="layout-header-nav-link">魅族商城 </a><p class="line-top hidden-xs"></p>
+              <a href="{% url 'myhome_index' %}" class="layout-header-nav-link">魅族商城 </a><p class="line-top hidden-xs"></p>
             </li>
             <li class="layout-header-nav-item">
               <a href="./list.html" class="layout-header-nav-link">魅族手机</a>
@@ -328,7 +342,7 @@
                 {{v.name}}
               </a>
               {% for vv in v.goods_set.all %}
-              <a class="home-category-child-item" href="{% url 'myhome_info' %}?id={{vv.id}}" target="_blank" >
+              <a class="home-category-child-item" href="{% url 'myhome_info' %}?id={{vv.id}}" >
                 <img class="home-category-child-img" src="{{vv.pic_url}}" height="40" width="40">
                 <div class="home-category-child-text">{{vv.title}}</div>
               </a>
