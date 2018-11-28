@@ -18,7 +18,7 @@ class AdminLoginMiddleware:
         if re.match('/myadmin/',request.path) and request.path not in urllist:
 
             # 检测session中是否存在 adminlogin的数据记录
-            if request.session.get('vipuser','') == '':
+            if request.session.get('admin','') == '':
                 # 如果在session没有记录,则证明没有登录,跳转到登录页面
                 return HttpResponse('<script>alert("请先登录");location.href="/myadmin/login";</script>')
 

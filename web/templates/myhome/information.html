@@ -1,0 +1,329 @@
+{% extends 'myhome/index.html' %}
+{% block head %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+        <title>个人资料</title>
+
+        <link href="/static/myhome/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+      <link href="/static/myhome/img/favicon.ico" rel="icon" type="image/x-icon">
+    <!-- Bootstrap -->
+    <link href="/static/myhome/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/static/myhome/js/jquery-1.12.4.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/static/myhome/js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="/static/myhome/css/global.css">
+        <link rel="stylesheet" type="text/css" href="/static/myhome/css/app.css">
+        <script type="text/javascript" src="/static/myhome/js/rem.js"></script>
+        <script type="text/javascript" src="/static/myhome/js/topNav.js"></script>
+
+        <link href="/static/myhome/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+        <link href="/static/myhome/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+
+        <link href="/static/myhome/css/personal.css" rel="stylesheet" type="text/css">
+        <link href="/static/myhome/css/infstyle.css" rel="stylesheet" type="text/css">
+        <script src="/static/myhome/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
+        <script src="/static/myhome/AmazeUI-2.4.2/assets/js/amazeui.js"></script>  
+{% endblock %}
+
+{% block cont %}
+        <div class="center" style="margin-top:80px">
+            <div class="col-main">
+                <div class="main-wrap" style="margin-bottom:30px">
+                    <form class="am-form am-form-horizontal" method='post' action="{% url 'myhome_information' %}"  enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="user-info">
+                        <!--标题 -->
+                        <div class="am-cf am-padding">
+                            <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">个人资料</strong> / <small>Personal&nbsp;information</small></div>
+                        </div>
+                        <hr/>
+
+                        <!--头像 -->
+                        <div class="user-infoPic">
+
+                            <div class="filePic">
+                                <input type="file" class="inputPic" name="pic_url">
+                                <img class="am-circle am-img-thumbnail" src="{{ob.pic_url}}" alt="" >
+                            </div>
+
+                            <p class="am-form-help">头像</p>
+
+                            <div class="info-m">
+                                <div><b>用户名：<i>{{ob.username}}</i></b></div>
+                                <div class="vip">
+                                      <span></span><a href="#">会员专享</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--个人信息 -->
+                        <div class="info-main">
+
+                                <div class="am-form-group">
+                                    <label for="user-name2" class="am-form-label">用户名</label>
+                                    <div class="am-form-content">
+                                        <input type="text" id="user-name2" value="{{ob.username}}" name="username">
+                                          <small>昵称长度不能超过40个汉字</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label class="am-form-label">性别</label>
+                                    <div class="am-form-content sex">
+                                        <label class="am-radio-inline">
+                                            <input type="radio" name="sex" value="1" {% if ob.sex == '1' %} checked {% endif %} data-am-ucheck> 男
+                                        </label>
+                                        <label class="am-radio-inline">
+                                            <input type="radio" name="sex" value="0" data-am-ucheck {% if ob.sex == '0' %} checked {% endif %}> 女
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-form-label">手机</label>
+                                    <div class="am-form-content">
+                                        <input id="user-phone" value="{{ob.phone}}" type="tel" name='phone' disabled>
+
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-email" class="am-form-label">电子邮件</label>
+                                    <div class="am-form-content">
+                                        <input id="user-email" value="{{ob.email}}" type="email" name="email">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-email" class="am-form-label">年龄</label>
+                                    <div class="am-form-content">
+                                        <input id="user-age" value="{{ob.age}}" type="email" name='age'>
+                                    </div>
+                                </div>
+                                <div class="am-form-group address">
+                                    <label for="user-address" class="am-form-label">收货地址</label>
+                                    <div class="am-form-content address">
+                                        <a href="address.html">
+                                            <p class="new-mu_l2cw">
+                                                <span class="province">湖北</span>省
+                                                <span class="city">武汉</span>市
+                                                <span class="dist">洪山</span>区
+                                                <span class="street">雄楚大道666号(中南财经政法大学)</span>
+                                                <span class="am-icon-angle-right"></span>
+                                            </p>
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <div class="am-form-group safety">
+                                    <label for="user-safety" class="am-form-label">账号安全</label>
+                                    <div class="am-form-content safety">
+                                        <a href="safety.html">
+
+                                            <span class="am-icon-angle-right"></span>
+
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <div class="info-btn">
+                                    <div class="am-btn am-btn-danger">保存修改</div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--底部-->
+            </div>
+
+            <aside class="menu">
+                <ul>
+                    <li class="person active">
+                        <a href="index.html"><i class="am-icon-user"></i>个人中心</a>
+                    </li>
+                    <li class="person">
+                        <p><i class="am-icon-newspaper-o"></i>个人资料</p>
+                        <ul>
+                            <li> <a href="{% url 'myhome_information' %}?phone={{request.session.msgcode.phone}}">个人信息</a></li>
+                            <li> <a href="{% url 'myhome_upaddresslist' %}">地址管理</a></li>
+                        </ul>
+                    </li>
+                    <li class="person">
+                        <p><i class="am-icon-balance-scale"></i>我的交易</p>
+                        <ul>
+                            <li><a href="#">订单管理</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </aside>
+        </div>
+
+<!-- 底部区域 -->
+  <footer class="layout-footer  hidden-xs hidden-sm">
+    <div class="container">
+        <div class="layout-footer-top clearfix">
+            <ul class="layout-footer-services clearfix">
+                <li class="layout-footer-services-item">
+                  <a href="#" class="layout-footer-services-link" target="_blank" >
+                    <span class="layout-footer-service-wrap"><i class="glyphicon glyphicon-sd-video"></i></span>
+                    <span class="layout-footer-services-text">顺丰包邮</span>
+                  </a>
+                </li>
+                <li class="layout-footer-services-item">
+                  <a href="#" class="layout-footer-services-link" target="_blank">
+                    <span class="layout-footer-service-wrap"><i class="glyphicon glyphicon-flash"></i></span>
+                    <span class="layout-footer-services-text">100+ 城市次日送达</span>
+                  </a>
+                </li>
+                <li class="layout-footer-services-item">
+                  <a href="#" class="layout-footer-services-link" target="_blank" >
+                    <span class="layout-footer-service-wrap"><i class="glyphicon glyphicon-repeat"></i></span>
+                    <span class="layout-footer-services-text">7 天无理由退货</span>
+                  </a>
+                </li>
+                <li class="layout-footer-services-item">
+                  <a href="#" class="layout-footer-services-link" target="_blank" >
+                    <span class="layout-footer-service-wrap"><i class="glyphicon glyphicon-refresh"></i></span>
+                    <span class="layout-footer-services-text">15 天换货保障</span>
+                 </a>
+                </li>
+                <li class="layout-footer-services-item">
+                  <a href="#" class="layout-footer-services-link" target="_blank">
+                    <span class="layout-footer-service-wrap"><i class="glyphicon glyphicon-wrench"></i></span>
+                    <span class="layout-footer-services-text">1 年免费保修</span>
+                  </a>
+                </li>
+                <li class="layout-footer-services-item">
+                  <a href="#" class="layout-footer-services-link" target="_blank">
+                    <span class="layout-footer-service-wrap"><i class="glyphicon glyphicon-map-marker"></i></span>
+                    <span class="layout-footer-services-text">2300+ 线下体验店</span>
+                  </a>
+                </li>
+                <li class="layout-footer-services-item">
+                    <a href="#" class="layout-footer-services-link" target="_blank">
+                      <span class="layout-footer-service-wrap"><i class="glyphicon glyphicon-sort"></i></span>
+                      <span class="layout-footer-services-text">远程支持服务</span>
+                    </a>
+                </li>
+                <li class="layout-footer-services-item">
+                    <a href="#" class="layout-footer-services-link" target="_blank" data-mtype="wmz_public_foot_homerepair">
+                      <span class="layout-footer-service-wrap"><i class="glyphicon glyphicon-home"></i></span>
+                      <span class="layout-footer-services-text">上门快修</span>
+                  </a>
+                </li>
+            </ul>
+              <div class="layout-footer-contact">
+                    <p class="layout-footer-contact-desc">24小时全国服务热线</p>
+                    <a href="tel:400-788-3333" class="layout-footer-contact-tel">400-788-3333</a>
+                    <p>
+                          <a href="javascript:void(0);" class="layout-footer-contact-online">
+                                <i class="layout-font layout-font-talk1"></i><span class="text">在线客服</span>
+                          </a>
+                    </p>
+              </div>
+        </div>
+        <div class="layout-footer-bottom clearfix">
+            <ul class="layout-footer-interlock clearfix">
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link">了解魅族</a>
+                </li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link" >加入我们</a>
+                </li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link" >联系我们</a>
+                </li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link" >Flyme</a>
+                </li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link">魅族社区</a>
+                </li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link">天猫旗舰店</a>
+                </li>
+                <li class="layout-footer-interlock-item">
+                    <a href="#" target="_blank" class="layout-footer-interlock-link" >问题反馈</a>
+                </li>
+                <li class="layout-footer-interlock-item">
+                    <a href="//www.meizu.com/authorization.html" target="_blank" class="layout-footer-interlock-link" >线上销售授权名单公示</a>
+                </li>
+            </ul>
+            <div class="layout-footer-copyright clearfix">
+                    <span class="layout-footer-copyright-left">
+                          <a class="layout-footer-copyright-link copyright-text">&copy;2017 Meizu Telecom Equipment Co., Ltd. All rights reserved.</a>
+                          <a class="layout-footer-copyright-link" hidefocus="true" href="#" target="_blank">粤ICP备13003602号-2</a>
+                          <a class="layout-footer-copyright-link" hidefocus="true" href="#" target="_blank">合字B2-20170010</a>
+                          <a class="layout-footer-copyright-link" hidefocus="true" href="#" target="_blank">营业执照</a>
+                          <a class="layout-footer-copyright-link" hidefocus="true" href="3" target="_blank">法律声明</a>
+                          <a class="layout-footer-copyright-link">粤公网安备 44049102496009 号</a>
+                          <a class="layout-footer-copyright-link" hidefocus="true" href="#" rel="nofollow" target="_blank">
+                            <i class="layout-icon layout-icon-license"></i>
+                          </a>
+                          <a class="layout-footer-copyright-link" hidefocus="true" href="#" rel="nofollow" target="_blank">
+                            <i class="layout-icon layout-icon-wel"></i>
+                          </a>
+                          <a class="layout-footer-copyright-link" hidefocus="true" href="#" rel="nofollow" target="_blank">
+                              <i class="layout-icon layout-icon-trust"></i>
+                          </a>
+                     </span>
+                    <ul class="layout-footer-media clearfix">
+                          <li class="layout-footer-media-item">
+                                <a href="http://weibo.com/meizumobile" class="layout-footer-media-link">
+                                      <i class="layout-font layout-font-weibo"></i>
+                                </a>
+                          </li>
+                          <li class="layout-footer-media-item">
+                                <a href="javascript:void(0);" class="layout-footer-media-link wechat">
+                                      <i class="layout-font layout-font-wechat"></i>
+                                      <div class="layout-footer-media-wechat-qrcode">
+                                        <img class="layout-footer-media-wechat-img" src="" alt="微信二维码">
+                                      </div>
+                                </a>
+                          </li>
+                          <li class="layout-footer-media-item">
+                                <a href="#" class="layout-footer-media-link">
+                                      <i class="layout-font layout-font-qzone"></i>
+                                </a>
+                          </li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+  </footer><!-- 底部区域 E -->
+  
+  <!-- 返回顶部 -->
+  <div class="layout-magnet layout-magnet-show">  
+    <div class="layout-magnet-item layout-magnet-item-top">
+      <a href="javascript:void(0);" class="layout-magnet-link" data-mtype="wmz_public_cbxf_top">
+        <div class="layout-magnet-icon">
+          <i class="glyphicon glyphicon-menu-up"></i>
+        </div>
+      </a>
+    </div>
+  </div><!-- 返回顶部 E-->   
+<script>
+    $('.am-btn-danger').click(function(){
+        $(this).parents('form').submit()
+    })
+     $('.inputPic').on('change',function(){
+    var filePath = $(this).val();         //获取到input的value，里面是文件的路径
+    var fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
+    var src = window.URL.createObjectURL(this.files[0]); //转成可以在本地预览的格式
+        
+    // 检查是否是图片
+    if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {
+        error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
+        return;  
+    }
+
+    $('.am-img-thumbnail').attr('src',src);
+    console.log(src);
+    })
+
+
+</script>
+{% endblock %}

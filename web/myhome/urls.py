@@ -31,4 +31,8 @@ urlpatterns = [
     # 提交订单生成订单
     url(r'^orderconfirm/$',views.orderconfirm,name="myhome_ordconfirm"),
 
+    # 个人中心
+    url(r'^information/$',views.information,name="myhome_information"),
+    url(r'^upaddresslist/$',views.upaddresslist,name="myhome_upaddresslist"),
+
 ]

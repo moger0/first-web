@@ -28,7 +28,7 @@ def login(request):
         try:
             # 判断用户和密码
             if data['username'] == "admin" and data['password'] == "123456":
-                request.session['vipuser']={'username':'admin'}
+                request.session['admin']={'username':'admin'}
             # 跳转到首页
             return HttpResponse('<script>alert("登陆成功");location.href="'+reverse('myadmin_index')+'"</script>')
         except:
@@ -37,7 +37,7 @@ def login(request):
 
 
 def loginout(request):
-    request.session['vipuser']=''
+    request.session['admin']=''
     return HttpResponse('<script>alert("退出成功");location.href="'+reverse('myadmin_login')+'"</script>')
 
 

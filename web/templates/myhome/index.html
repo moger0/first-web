@@ -45,15 +45,17 @@
           {% if request.session.vipuser %}
           <ul class="nav navbar-nav navbar-right layout-header-service clearfix">
             <li class="layout-header-service-item" id="layoutHeaderUser">
-                <a class="layout-header-service-link g-user" href="#">
+                <a class="layout-header-service-link g-user" href="{% url 'myhome_information' %}">
                   <!-- <i class="glyphicon glyphicon-user"></i> -->
+                  {% block src %}
                   <img src="{{ request.session.vipuser.pic_url }}" width="100%">
+                  {% endblock %}
                 </a>
                 <div class="layout-user-downmenu">
                   <ul class="layout-user-downmenu-list">
                    
                       <li class="layout-user-downmenu-item">
-                      <a href="{% url 'myhome_index' %}" class="layout-user-downmenu-link">个人中心</a>
+                      <a href="{% url 'myhome_information' %}" class="layout-user-downmenu-link">个人中心</a>
                       </li>
                       <li class="layout-user-downmenu-item">
                         <a href="{% url 'myhome_loginout' %}" target="_blank" class="layout-user-downmenu-link" data-mtype="wmz_public_grzx_register">退出登录</a>

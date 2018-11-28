@@ -4,6 +4,7 @@ from myadmin import models
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.urlresolvers import reverse
 
+
 # Create your views here.
 
 def index(request):
@@ -101,15 +102,16 @@ def checkregister(request):
         return JsonResponse({"error":1,'msg':'用户名可用'})
 
 def goodscart(request):
-    # 查询数据库的数据
-    userphone = request.session['vipuser']['phone']
-    user = models.Users.objects.get(phone=userphone)
-    print(user.id)
-    goods = user.cart_set.all()
+    if request.session['vipuser']['phone']:
+        # 查询数据库的数据
+        userphone = request.session['vipuser']['phone']
+        user = models.Users.objects.get(phone=userphone)
+        print(user.id)
+        goods = user.cart_set.all()
 
-    # 去购物车库拿当前用户对应的商品
-    # g = models.Cart.filter(uid=user.id)
-    return render(request,'myhome/cart.html',{'data':goods})
+        # 去购物车库拿当前用户对应的商品
+        # g = models.Cart.filter(uid=user.id)
+        return render(request,'myhome/cart.html',{'data':goods})
 
 def goodscartedit(request):
     # 接收数据 并修改 
@@ -295,6 +297,71 @@ def orderconfirm(request):
     # return HttpResponse('支付页面')
     return HttpResponse('<script>alert("订单创建成功,确定返回主页");location.href="'+reverse('myhome_index')+'"</script>')
 
+
+def information(request):
+    if request.method == 'GET':
+        phone = request.session['vipuser']['phone']
+        user = models.Users.objects.get(phone=phone)
+        return render(request,'myhome/information.html',{'ob':user})
+    elif request.method == 'POST':
+        phone = request.session['vipuser']['phone']
+        user = models.Users.objects.get(phone=phone)
+        data = request.POST.dict()
+        myfiles = request.FILES.get("pic_url")
+        # 'name': '', 'sex': '1', 'phone': '', 'email': '', 'age': ''}
+        if data['username']:
+            user.username = data['username']
+        if data['phone']:
+            user.phone = data['phone']
+        if data['email']:
+            user.email = data['email']
+        if data['age']:
+            user.age = data['age']
+        if myfiles:
+            if user.pic_url!="/static/pics/user.jpg":
+                delpic(user.pic_url)
+            user.pic_url = upload(myfiles)
+        user.sex = data['sex']
+        user.save()
+        print(user.pic_url)
+        return HttpResponse('<script>alert("修改成功");location.href="'+reverse('myhome_information')+'"</script>')
+
+
+def upaddresslist(request):
+    # 查地址
+    user = models.Users.objects.get(phone=request.session['vipuser']['phone'])
+    # 当前用户有多少个地址
+    address = models.Address.objects.filter(uid=user.id)
+    # 蒋数据序列化 [{},{}]
+    adds = list(address.values())
+    # 循环每一条数据 通过县乡 找到对应的省和市
+    for i in adds:
+        xq = models.Citys.objects.get(id=i['zhen_id'])
+        shi = models.Citys.objects.get(id=xq.upid)
+        sheng = models.Citys.objects.get(id=shi.upid)
+        i['shi'] = shi.name
+        i['sheng'] = sheng.name
+        i['zhen_id'] = xq.name
+    print(adds)
+    # 查询一级城市数据
+    citys = models.Citys.objects.filter(level = 1)
+    return render(request,'myhome/address.html',{'citys':citys,'address':adds})
+
+
+def upload(myfile):
+    #执行图片的上传
+    filename = str(time.time())+"."+myfile.name.split('.').pop()
+    destination = open("./static/pics/"+filename,"wb+")
+    for chunk in myfile.chunks():      # 分块写入文件  
+        destination.write(chunk)  
+    destination.close()
+    # /static/picsn/图片
+    return '/static/pics/'+filename
+
+def delpic(pic_url):
+    if pic_url!='/static/pics/user.jpg':
+        os.remove(BASE_DIR+pic_url)
+    return
 
 
 

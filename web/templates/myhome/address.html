@@ -1,0 +1,279 @@
+{% extends 'myhome/index.html' %}
+    
+    {% block head %}
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0 ,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="/static/myhome/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+        <link href="/static/myhome/img/favicon.ico" rel="icon" type="image/x-icon">
+
+        <title>结算页面</title> 
+
+        <link href="/static/myhome/css/bootstrap.min.css" rel="stylesheet">
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="/static/myhome/js/jquery-1.12.4.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="/static/myhome/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/myhome/css/global.css">
+        <link rel="stylesheet" type="text/css" href="/static/myhome/css/app.css">
+        <script type="text/javascript" src="/static/myhome/js/rem.js"></script>
+        <script type="text/javascript" src="/static/myhome/js/topNav.js"></script>
+
+        <link href="/static/myhome/register/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
+
+        <link href="/static/myhome/register/basic/css/demo.css" rel="stylesheet" type="text/css" />
+        <link href="/static/myhome/register/css/cartstyle.css" rel="stylesheet" type="text/css" />
+
+        <link href="/static/myhome/register/css/jsstyle.css" rel="stylesheet" type="text/css" />
+
+        <script type="text/javascript" src="/static/myhome/register/js/address.js"></script>
+    </head>
+    {% endblock %}
+
+
+    {% block cont %}
+    <body>
+            <br>
+            <br>
+            <br>
+            <br>
+            <!--悬浮搜索框-->
+            <div class="nav white">
+                <div class="logo"><img src="/static/myhome/img/logo.png" /></div>
+                <div class="logoBig">
+                    <li><img src="/static/myhome/img/logo.png" style="width: 100px;height: 45px;margin-left: 50px;margin-top: 25px;" /></li>
+                </div>
+
+                <div class="search-bar pr">
+                    <a name="index_none_header_sysc" href="#"></a>
+                    <form>
+                        <input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
+                        <input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+                    </form>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="concent">
+                <!--地址 -->
+                <div class="paycont">
+                    <div class="address">
+                        <h3>收货地址管理 </h3>
+                        <div class="control">
+                            <div class="tc-btn createAddr theme-login am-btn am-btn-danger">添加新地址</div>
+                        </div>
+                        <div class="clear"></div>
+                        <ul class="addr">
+                            <div class="per-border"></div>
+                            {% for i in address %}
+                            <li addrid="{{i.id}}" class="user-addresslist {% if i.isselect == 1 %}defaultAddr{% endif %}">
+
+                                <div class="address-left">
+                                    <div class="user DefaultAddr">
+
+                                        <span class="buy-address-detail">   
+                                            <span class="buy-user">{{i.name}} </span>
+                                            <span class="buy-phone">{{i.phone}}</span>
+                                        </span>
+                                    </div>
+                                    <div class="default-address DefaultAddr">
+                                        <span class="buy-line-title buy-line-title-type">收货地址：</span>
+                                        <span class="buy--address-detail">
+                                            <span class="province">{{i.sheng}}</span>
+                                            <span class="city">{{i.shi}}</span>
+                                            <span class="dist">{{i.zhen_id}}</span>
+                                            <span class="street">{{i.info}}</span>
+                                            
+                                        </span>
+                                    </div>
+                                    {% if i.isselect == 1 %}
+                                    <ins class="deftip">默认地址</ins>
+                                    {% endif %}
+                                </div>
+                                <div class="address-right">
+                                    <a href="/static/myhome/register/person/address.html">
+                                        <span class="am-icon-angle-right am-icon-lg"></span></a>
+                                </div>
+                                <div class="clear"></div>
+
+                                <div class="new-addr-btn">
+                                    <a href="#" class="hidden">设为默认</a>
+                                    <span class="new-addr-bar hidden">|</span>
+                                    <a href="#">编辑</a>
+                                    <span class="new-addr-bar">|</span>
+                                    <a cid={{i.id}} id="deladd" style="cursor: pointer;">删除</a>
+                                </div>
+                            </li>
+                            <div class="per-border"></div>
+                            {% endfor %}
+                        </ul>   
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <div class="footer-hd">
+                        <p>
+                            <a href="#">小米科技</a>
+                            <b>|</b>
+                            <a href="#">商城首页</a>
+                            <b>|</b>
+                            <a href="#">支付宝</a>
+                            <b>|</b>
+                            <a href="#">物流</a>
+                        </p>
+                    </div>
+                    <div class="footer-bd">
+                        <p>
+                            <a href="#">关于小米</a>
+                            <a href="#">合作伙伴</a>
+                            <a href="#">联系我们</a>
+                            <a href="#">网站地图</a>
+                            <em>© 2015-2025 Hengwang.com 版权所有</em>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="theme-popover-mask"></div>
+            <div class="theme-popover">
+
+                <!--标题 -->
+                <div class="am-cf am-padding">
+                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">新增地址</strong> / <small>Add address</small></div>
+                </div>
+                <hr/>
+
+                <div class="am-u-md-12">
+                    <form class="am-form am-form-horizontal">
+
+                        <div class="am-form-group">
+                            <label for="user-name" class="am-form-label">收货人</label>
+                            <div class="am-form-content">
+                                <input type="text" id="user-name" placeholder="收货人">
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="user-phone" class="am-form-label">手机号码</label>
+                            <div class="am-form-content">
+                                <input id="user-phone" placeholder="手机号必填" type="email">
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="user-phone" class="am-form-label">所在地</label>
+                            <div class="am-form-content address">
+                                
+                                <select data-am-selected class="select ">
+                                    {% for i in citys %}
+                                    <option value="{{i.id}}">{{i.name}}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <select data-am-selected class="select " name="shi">
+                                    <option >请选择</option>
+                                </select>
+
+                                <select data-am-selected class="select " name="xq">
+                                    <option >请选择</option>
+                                </select>
+                               
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="user-intro" class="am-form-label">详细地址</label>
+                            <div class="am-form-content">
+                                <textarea class="" rows="3" id="user-intro" placeholder="输入详细地址"></textarea>
+                                <small>100字以内写出你的详细地址/static/myhome/register.</small>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group theme-poptit">
+                            <div class="am-u-sm-9 am-u-sm-push-3">
+                                <div class="am-btn am-btn-danger save">保存</div>
+                                <div class="am-btn am-btn-danger close">取消</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="clear"></div>
+            <script type="text/javascript">
+
+                // 设置默认地址
+                $('input[name=addrid]').val($('.defaultAddr').attr('addrid'))
+
+
+                // 城级联动
+                $('.address').on('click','.select',function(){
+                    var id = $(this).val();
+                   
+                    // 发送ajax请求 /?upid=id
+                    $.get('{% url "myhome_citys" %}',{'upid':id},function(data){
+                        
+                        if(data.length>0){
+                            // 判断返回数据的层级 [{},{}] 如果市2级就获取第二个select
+                            if(data[0]['level']==2){
+                                var sel = $('select[name=shi]')
+                            }else if(data[0]['level']==3){
+                                var sel = $('select[name=xq]')
+
+                            }
+                            var str1=''
+                            for(var i=0;i<data.length;i++){
+                                str1 += '<option value="'+data[i].id+'">'+data[i].name+'</option>'
+                            }
+                            // 讲拼接好的数据 写到select
+                            sel.html(str1);
+                            
+                        }
+                       
+                        
+                    })
+            })
+
+            // 获取地址 添加
+            $('.save').click(function(){
+                // 获取素有的信息
+                var data = {}
+                data.phone = $('#user-phone').val()
+                data.name = $('#user-name').val()
+                data.citys = $('.address').find('select:eq(2)').val()
+                data.info = $('#user-intro').val()
+                
+                //把获取到的数据 发给后台入库
+                $.get('{% url "myhome_saveadd" %}',data,function(data){
+                    if(data['error']==1){
+                        alert('添加成功');
+                        // 成功后关闭谈窗
+                        // $('.theme-popover').css('display','none');
+                        history.go(0)
+                    }else{
+                        alert('添加失败');
+                    }
+                })
+
+            })
+
+            // 删除
+            $('div').on('click','#deladd',function(){
+                // 当前单击的商品id
+                var cid = $(this).attr('cid');
+                var el = $(this);
+                $.get('{% url "myhome_adddel" %}',{'cid':cid},function(data){
+                    if(data['error']==1){
+                        alert('删除成功')
+                    history.go(0)
+                    // 删除元素节点
+                    el.parents('div').remove()
+                    }else{
+                        alert('删除失败')
+                    }  
+                })
+            })
+            </script>
+
+    </body>
+    {% endblock %}
