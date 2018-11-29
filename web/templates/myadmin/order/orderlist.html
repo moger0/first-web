@@ -82,8 +82,12 @@
                                     </td> 
                                     <td class="am-text-middle">{{i.price}}</td> 
                                     <td class="am-text-middle"> 
-                                        {% if i.status == 1 %}已删除
-                                        {% elif i.status == 0 %}正常
+                                        {% if i.status == 0 %}待付款
+                                        {% elif i.status == 1 %}待发货
+                                        {% elif i.status == 2 %}待收货
+                                        {% elif i.status == 3 %}待评价
+                                        {% elif i.status == 4 %}已删除
+                                        {% elif i.status == 5 %}正常
                                         {% endif %}
                                     </td>         
                                    

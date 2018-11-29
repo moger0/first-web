@@ -65,8 +65,12 @@
                             <label class="am-u-sm-3 am-form-label">状态
                                 <span class="tpl-form-line-small-title">SEO</span></label>
                             <div class="am-u-sm-9">
-                                <input type="radio" name="status" {% if info.status == '0' %} checked {% endif %} value="0"> 正常
-                                <input type="radio" name="status" {% if info.status == '1' %} checked {% endif %} value="1"> 删除
+                                <input type="radio" name="status" {% if info.status == '0' %} checked {% endif %} value="0"> 待付款
+                                <input type="radio" name="status" {% if info.status == '1' %} checked {% endif %} value="1"> 待发货
+                                <input type="radio" name="status" {% if info.status == '2' %} checked {% endif %} value="2"> 待收货
+                                <input type="radio" name="status" {% if info.status == '3' %} checked {% endif %} value="3"> 待评价
+                                <input type="radio" name="status" {% if info.status == '4' %} checked {% endif %} value="4"> 已删除
+                                <input type="radio" name="status" {% if info.status == '5' %} checked {% endif %} value="5"> 正常
                             </div>
                         </div>
                       

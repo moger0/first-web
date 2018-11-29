@@ -212,10 +212,27 @@ def goodsconfirm(request):
     citys = models.Citys.objects.filter(level = 1)
     return render(request,'myhome/confirm.html',{'data':data,'citys':citys,'address':adds})
 
-
+# 订单列表
 def ordertolist(request):
     
     return render(request,'myhome/ordertolist.html')
+
+# 删除订单数据
+def orderodel(request):
+    try:
+        # 接收id
+        cid = request.GET.get('cid')
+        print(cid)
+        # 删数据
+        ob = models.Order.objects.filter(id=cid)
+        print(ob)
+        for i in ob:
+            i.status = 4
+            print(i.status)
+            i.save()
+        return JsonResponse({'error':1})
+    except:
+        return JsonResponse({'error':0})
 
 
 # 获取地址
@@ -510,12 +527,17 @@ def upaddress(cid):
 def myhomeordero(request):
     user = models.Users.objects.get(phone=request.session['vipuser']['phone'])
     order = user.order_set.all()
-    order0 = order.filter(status=0)
-    order1 = order.filter(status=1)
-    order2 = order.filter(status=2)
-    order3 = order.filter(status=3)
-    print(order0)
-    print(order1)
-    print(order2)
-    print(order3)
-    return render(request,'myhome/ordero.html',{'order0':order0,'order1':order1,'order2':order2,'order3':order3})
+    order0 = order.all()
+    order1 = order.filter(status=0)
+    order2 = order.filter(status=1)
+    order3 = order.filter(status=2)
+    order4 = order.filter(status=3)
+    order5 = order.filter(status=4)
+    order6 = order.filter(status=5)
+
+    # print(order0)
+    # print(order1)
+    # print(order2)
+    # print(order3)
+    # print(order4)
+    return render(request,'myhome/ordero.html',{'order0':order0,'order1':order1,'order2':order2,'order3':order3,'order4':order4,'order5':order5,'order6':order6})

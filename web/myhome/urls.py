@@ -52,5 +52,6 @@ urlpatterns = [
 
      # 订单管理
     url(r'^ordero/$',views.myhomeordero,name="myhome_ordero"),
+    url(r'^orderdel/$',views.orderodel,name="myhome_orderdel"),
 
 ]
