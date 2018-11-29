@@ -3,6 +3,7 @@ from django.http import HttpResponse,JsonResponse
 from myadmin import models
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.urlresolvers import reverse
+import json
 
 
 # Create your views here.
@@ -212,6 +213,10 @@ def goodsconfirm(request):
     return render(request,'myhome/confirm.html',{'data':data,'citys':citys,'address':adds})
 
 
+def ordertolist(request):
+    
+    return render(request,'myhome/ordertolist.html')
+
 
 # 获取地址
 def goodscitys(request):
@@ -229,6 +234,11 @@ def addressdel(request):
     ob = models.Address.objects.get(id=cid)
     ob.delete()
     return JsonResponse({'error':1})
+
+def addressedit(request):
+    cid = request.GET.get('cid')
+    ob = models.Address.objects.get(id=cid)
+    return JsonResponse(ob,safe=False)
 
 # 添加地址
 def saveadd(request):
@@ -399,3 +409,113 @@ def sendmsg(request):
     # res = json.loads(content.decode('utf-8'))
     # print(res)
     return HttpResponse(res)
+
+
+
+    # 添加地址弹框
+def myhomeaddress(request):
+    cid = request.GET.get('cid')
+    cob = models.Citys.objects.filter(upid=cid).values()
+    return JsonResponse(list(cob),safe=False)
+
+# 接收地址栏数据
+def myhomeaddressadd(request):
+    try:
+        data = request.GET.dict()
+        data['uid'] =  models.Users.objects.get(phone=request.session['vipuser']['phone'])
+        data['city'] = models.Citys.objects.get(id=data['city'])
+        ob = models.Address(**data)
+        ob.save()
+        area = upaddress(ob.city.id)
+        area['id'] = str(ob.id)
+        print(area)
+        return JsonResponse({'error':1,'area':area})
+    except:
+        return JsonResponse({'error':0})
+
+# 更改地址
+def addressedit(request):
+    if request.method == "GET":
+        aid = request.GET.get('aid')
+        aob = models.Address.objects.filter(id=aid).values()[0]
+        ob = upaddress(str(aob['zhen_id']))
+        aob.update(ob)
+        return JsonResponse({'error':0,'aob':aob})
+    elif request.method == 'POST':
+        data = request.POST.dict()
+        city = models.Citys.objects.get(id=data['quxian'])
+        aob = models.Address.objects.get(id=data['aid'])
+        aob.name = data['name']
+        aob.phone = data['phone']
+        aob.city = city
+        aob.info = data['info']
+        aob.save()
+        return HttpResponse('<script>alert("修改成功");location.href="'+reverse('addresslist')+'"</script>')
+
+# 更改默认地址
+def myhomedefaultedit(request):
+    try:
+        aid = request.GET.get('aid')
+        address = models.Address.objects.get(id=aid)
+        user = address.uid
+        ads = user.address_set.all()
+        for i in ads:
+            i.isselect = False
+            i.save()
+        address.isselect = True
+        address.save()
+        return JsonResponse({'error':0})
+    except:
+        return JsonResponse({'error':1})
+
+# 地址管理
+def addresslist(request):
+    if request.method == 'GET':
+        phone = request.session['vipuser']['phone']
+        user = models.Users.objects.get(phone=phone)
+        ob = list(user.address_set.all().values())
+        for i in ob:
+            data = upaddress(i['zhen_id'])
+            i.update(data)
+        address = models.Citys.objects.filter(upid=0)
+        addresss = models.Citys.objects.filter(level=2)
+        addresst = models.Citys.objects.filter(level=3)
+        return render(request,'myhome/address1.html',{'ob':ob,'address':address,'addresss':addresss,'addresst':addresst})
+
+# 地址删除
+def myhomedeladdress(request):
+    try:
+        cid = request.GET.get('aid')
+        ob = models.Address.objects.get(id=cid)
+        ob.delete()
+        return JsonResponse({'error':0})
+    except:
+        return JsonResponse({'error':1})
+
+# 通过县区的id获取相应的市和省份和区县的名称
+def upaddress(cid):
+    data={}
+    xq = models.Citys.objects.get(id=cid)
+    shi = models.Citys.objects.get(id=xq.upid)
+    sheng = models.Citys.objects.get(id=shi.upid)
+    data['shi'] = shi.name
+    data['sheng'] = sheng.name
+    data['xq'] = xq.name
+    data['shiid'] = shi.id
+    data['shengid'] = sheng.id
+    data['xqid'] = xq.id
+    return data
+
+# 订单管理
+def myhomeordero(request):
+    user = models.Users.objects.get(phone=request.session['vipuser']['phone'])
+    order = user.order_set.all()
+    order0 = order.filter(status=0)
+    order1 = order.filter(status=1)
+    order2 = order.filter(status=2)
+    order3 = order.filter(status=3)
+    print(order0)
+    print(order1)
+    print(order2)
+    print(order3)
+    return render(request,'myhome/ordero.html',{'order0':order0,'order1':order1,'order2':order2,'order3':order3})

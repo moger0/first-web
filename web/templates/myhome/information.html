@@ -141,19 +141,19 @@
             <aside class="menu">
                 <ul>
                     <li class="person active">
-                        <a href="index.html"><i class="am-icon-user"></i>个人中心</a>
+                        <a href="#"><i class="am-icon-user"></i>个人中心</a>
                     </li>
                     <li class="person">
                         <p><i class="am-icon-newspaper-o"></i>个人资料</p>
                         <ul>
-                            <li> <a href="{% url 'myhome_information' %}?phone={{request.session.msgcode.phone}}">个人信息</a></li>
-                            <li> <a href="{% url 'myhome_upaddresslist' %}">地址管理</a></li>
+                            <li> <a href="{% url 'myhome_information' %}?phone={{request.session.vipuser.phone}}">个人信息</a></li>
+                            <li> <a href="{% url 'addresslist' %}">地址管理</a></li>
                         </ul>
                     </li>
                     <li class="person">
                         <p><i class="am-icon-balance-scale"></i>我的交易</p>
                         <ul>
-                            <li><a href="#">订单管理</a></li>
+                            <li><a href="{% url 'myhome_ordero' %}">订单管理</a></li>
                         </ul>
                     </li>
                 </ul>

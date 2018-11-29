@@ -41,7 +41,7 @@
             <div class="nav white">
                 <div class="logo"><img src="/static/myhome/img/logo.png" /></div>
                 <div class="logoBig">
-                    <li><img src="/static/myhome/img/logo.png" style="width: 100px;height: 45px;margin-left: 50px;margin-top: 25px;" /></li>
+                    <li><a href="{% url 'myhome_index' %}"><img src="/static/myhome/img/logo.png" style="width: 100px;height: 45px;margin-left: 50px;margin-top: 25px;" /></a></li>
                 </div>
 
                 <div class="search-bar pr">
@@ -99,7 +99,7 @@
                                 <div class="new-addr-btn">
                                     <a href="#" class="hidden">设为默认</a>
                                     <span class="new-addr-bar hidden">|</span>
-                                    <a href="#">编辑</a>
+                                    <a class="tc-btn createAddr theme-login" cid={{i.id}} id="editadd" style="cursor: pointer;">编辑</a>
                                     <span class="new-addr-bar">|</span>
                                     <a cid={{i.id}} id="deladd" style="cursor: pointer;">删除</a>
                                 </div>
@@ -233,6 +233,17 @@
                         
                     })
             })
+
+
+             // 编辑
+            $('div').on('click','#editadd',function(){
+                // 当前单击的商品id
+                var cid = $(this).attr('cid');
+                $.get('{% url "myhome_addedit" %}',{'cid':cid},function(data){
+                    console.log(data);
+                })
+            })
+
 
             // 获取地址 添加
             $('.save').click(function(){

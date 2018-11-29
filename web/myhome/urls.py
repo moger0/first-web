@@ -21,10 +21,12 @@ urlpatterns = [
 
     # 订单
     url(r'^order/$',views.goodsconfirm,name="myhome_order"),
+    url(r'^ordertolist/$',views.ordertolist,name="myhome_ordertolist"),
 
     # 获取地址
     url(r'^address/$',views.goodscitys,name="myhome_citys"),
     url(r'^addressdel/$',views.addressdel,name="myhome_adddel"),
+    url(r'^addressedit/$',views.addressedit,name="myhome_addedit"),
     # 存地址
     url(r'^saveadd/$',views.saveadd,name="myhome_saveadd"),
 
@@ -34,5 +36,21 @@ urlpatterns = [
     # 个人中心
     url(r'^information/$',views.information,name="myhome_information"),
     url(r'^upaddresslist/$',views.upaddresslist,name="myhome_upaddresslist"),
+
+     # 地址管理
+    url(r'^addresslist/$',views.addresslist,name="addresslist"),
+    # 地址添加
+    url(r'^address/$',views.myhomeaddress,name="myhome_addresss"),
+    # 修改地址
+    url(r'^addressedit/$',views.addressedit,name="addressedit"),
+    # 删除地址
+    url(r'^deladdress/$',views.myhomedeladdress,name="myhome_deladdress"),
+    # 修改默认地址
+    url(r'^defaultedit/$',views.myhomedefaultedit,name="myhome_defaultedit"),
+    # 接收地址栏数据
+    url(r'^addressadd/$',views.myhomeaddressadd,name="myhome_addresssadd"),
+
+     # 订单管理
+    url(r'^ordero/$',views.myhomeordero,name="myhome_ordero"),
 
 ]
