@@ -46,7 +46,7 @@
                                 <div class="address-left">
                                     <div class="user DefaultAddr">
                                         <span class="buy-address-detail">   
-                                        <span class="buy-user">{{i.shr}} </span>
+                                        <span class="buy-user">{{i.name}} </span>
                                         <span class="buy-phone"></span>
                                         </span>
                                     </div>
@@ -212,7 +212,7 @@
                         <div class="am-form-group">
                             <label for="user-name" class="am-form-label">收货人</label>
                             <div class="am-form-content">
-                                <input type="text" name="shr" id="username-h" placeholder="收货人">
+                                <input type="text" name="name" id="username-h" placeholder="收货人">
                             </div>
                         </div>
 
@@ -305,7 +305,7 @@
                 
                 // 修改地址的提交事件
                 $('#addsave-h').click(function(){
-                    var shr = $('#username-h').val()
+                    var name = $('#username-h').val()
                     var phone = $('#user-phone-h').val()
                     var aid = $('#hidden').val()
                     var sheng = $('select[level=province-h]').val()
@@ -317,8 +317,8 @@
                     if(city=='a'){alert('城市地址未选择.');return false}
                     if(!phone){alert('电话不能为空!');return false}
                     if(!info){alert('详细内容不能为空!');return false}
-                    if(!shr){alert('收货人不能为空!');return false}
-                    // $.post('{% url "addressedit" %}',{'shr':shr,'phone':phone,'city':city,'info':info,'aid':aid},function(data){
+                    if(!name){alert('收货人不能为空!');return false}
+                    // $.post('{% url "addressedit" %}',{'name':name,'phone':phone,'city':city,'info':info,'aid':aid},function(data){
                     //  if(data['error']==0){
                     //      alert('成功')
                     //  }
@@ -421,8 +421,8 @@
     })
     // 地址保存
     $('#addsave').click(function(){
-        var shr = $('#username').val()
-        if(!shr){alert('收货人不能为空!');return false}
+        var name = $('#username').val()
+        if(!name){alert('收货人不能为空!');return false}
         var phone = $('#user-phone').val()
         if(!phone){alert('电话不能为空!');return false}
         var sheng = $('select[level=province]').val()
@@ -433,7 +433,7 @@
         if(city=='a'){alert('城市地址未选择.');return false}
         var info = $('#user-intro').val()
         if(!info){alert('详细内容不能为空!');return false}
-        $.get('{% url "myhome_addresssadd" %}',{'shr':shr,'phone':phone,'city':city,'info':info},function(data){
+        $.get('{% url "myhome_addresssadd" %}',{'name':name,'phone':phone,'city':city,'info':info},function(data){
             // 成功后将内容写入 并清空表单
             if(data['error']==1){
                 alert('添加成功')
@@ -441,7 +441,7 @@
                 $('.theme-popover').css('display','none')
                 var li = $('#ul li').eq(0).clone()
                 li.removeClass('hidden')
-                li.find('.new-txt').text(shr)
+                li.find('.new-txt').text(name)
                 li.find('.buy-phone').text(phone)
                 li.find('.province').text(data['area']['sheng'])
                 li.find('.city').text(data['area']['shi'])
