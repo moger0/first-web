@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+import myhome
 urlpatterns = [
     # 首页
     url(r'^$',views.index,name="myhome_index"),
@@ -55,3 +56,5 @@ urlpatterns = [
     url(r'^orderdel/$',views.orderodel,name="myhome_orderdel"),
 
 ]
+
+handler404 = myhome.views.page_not_found #改动2

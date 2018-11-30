@@ -8,6 +8,9 @@ import json
 
 # Create your views here.
 
+def page_not_found(request):
+    return render_to_response('404.html')
+
 def index(request):
     # 查找所有顶级分类
     ob = models.Cates.objects.filter(pid=0)
